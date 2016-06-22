@@ -1,0 +1,19 @@
+<template name="clients">
+
+  <h2 class="page-header">Clients</h2>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each jobs}}
+      {{>jobsTableItem}}
+      {{/each}}
+    </tbody>
+  </table>
+
+</template>

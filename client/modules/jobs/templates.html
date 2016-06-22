@@ -1,0 +1,143 @@
+<template name="jobs">
+
+  <h2 class="page-header">Jobs</h2>
+
+  <p><a class="btn btn-default" href="{{pathFor 'jobs.add'}}" role="button">Add job</a></p>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Status</th>
+        <th>Created at</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each jobs}}
+      {{>jobsTableItem}}
+      {{/each}}
+    </tbody>
+  </table>
+
+</template>
+
+<template name="jobsTableItem">
+  <tr>
+    <th scope="row"><a href="{{pathFor 'jobs.edit'}}"><code>{{name}}</code></a></th>
+    <td>{{status}}</td>
+    <td>{{createdAt}}</td>
+    <td>
+      {{#if equal status 'stopped'}}
+      <i class="fa fa-play green" aria-hidden="true"></i>
+      <i class="fa fa-stop blue" aria-hidden="true"></i>
+      {{/if}}
+      {{#if equal status 'paused'}}
+      <i class="fa fa-play green" aria-hidden="true"></i>
+      {{/if}}
+      {{#if equal status 'working'}}
+      <i class="fa fa-stop red" aria-hidden="true"></i>
+      {{/if}}
+      {{#if equal status 'error'}}
+      {{/if}}
+      {{#if equal status 'finished'}}
+      {{/if}}
+      {{#if equal status 'cancelled'}}
+      {{/if}}
+      <a href="{{pathFor 'jobs.results'}}"><i class="fa fa-search blue" aria-hidden="true"></i></a>
+    </td>
+  </tr>
+</template>
+
+<template name="jobsAlertMessage">
+  <div class="alert alert-warning" role="alert">
+    Visit the help section to check how to return jobs results and other available methods. <a href="{{pathFor 'help.index'}}" class="alert-link">Visit the help section</a>
+  </div>
+</template>
+
+<template name="jobsAdd">
+  {{> jobsAlertMessage}}
+  <h2 class="page-header">Add a new job</h2>
+  {{> quickForm collection="Jobs" id="jobForm" type="insert"}}
+</template>
+
+<template name="jobsEdit">
+  {{> jobsAlertMessage}}
+  <h2 class="page-header">Update job</h2>
+  <!-- {{> CodeMirror id="some-id" name="someName" options=editorOptions code=editorCode}} -->
+  {{> quickForm collection="Jobs" id="jobForm" type="update" doc=job}}
+
+  <label class="control-label">History</label>
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each job.history}}
+      <tr>
+        <td>{{status}} {{#if comment}}<br>{{comment}}{{/if}}</td>
+        <td>{{at}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</template>
+
+<template name="jobsResults">
+  <h2 class="page-header">Job results</h2>
+  <p>Stats</p>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Result</th>
+        <th>Hashed result</th>
+        <th>At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each results}}
+      {{> jobsResultTableItem}}
+      {{/each}}
+    </tbody>
+  </table>
+
+  <a href="{{pathFor 'jobs.results.all' data=job}}">All results</a>
+
+</template>
+
+<template name="jobsResultsAll">
+  <h2 class="page-header">All results</h2>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Result</th>
+        <th>Hashed result</th>
+        <th>At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each results}}
+      {{> jobsResultTableItem}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="jobsResultTableItem">
+  <tr>
+    <td><a href="{{pathFor 'jobs.result'}}">{{resultId}}</a></td>
+    <td>{{hashedResult}}</td>
+    <td>{{createdAt}}</td>
+  </tr>
+</template>
+
+<template name="jobsResultsView">
+  <h2 class="page-header">Result</h2>
+  <pre>{{jsonPretty result.data}}</pre>
+</template>

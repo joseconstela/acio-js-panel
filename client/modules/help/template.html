@@ -1,0 +1,15 @@
+<template name="help">
+  <h2 class="page-header">Help</h2>
+
+  <h3>Embedding the library</h3>
+
+  <pre>var worker = new Worker(&#39;/lib.js&#39;);
+worker.postMessage(&#39;endpoint.http://localhost:3000&#39;);
+worker.postMessage(&#39;ready&#39;);</pre>
+
+  <h3>Debugging</h3>
+
+  <pre>worker.onmessage = function (e) { console.log(&#39;[WORKER] &#39; + e.data + &#39;&#39;); };
+worker.onerror   = function (e) { console.log(&#39;[ERROR ] &#39; + e.data + &#39;&#39;); };</pre>
+
+</template>

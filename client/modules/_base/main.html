@@ -1,0 +1,76 @@
+<head>
+  <title>dwebqueue</title>
+  <noscript>
+    <style>
+    body {font-size: 3em;text-align: center;}
+    body:after {content: "Please enable JavaScript";}
+    </style>
+  </noscript>
+</head>
+
+<body>
+
+</body>
+
+<template name="siteLayout">
+  {{> navbar}}
+  {{> site}}
+</template>
+
+<template name="appLayout">
+  {{> navbar}}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 no-padding">
+        {{> breadcrumb}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        {{> appMenu}}
+      </div>
+      <div class="col-md-10" role="main">
+        {{> yield}}
+      </div>
+    </div>
+
+    {{> footer}}
+  </div>
+
+</template>
+
+<template name="navbar">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        {{> loginButtons}}
+      </ul>
+    </div>
+  </nav>
+</template>
+
+<template name="footer">
+  <hr>
+  <footer role="contentinfo">
+    <p>&copy; 2015 Company, Inc.</p>
+  </footer>
+</template>
+
+<template name="appMenu">
+  <div class="nav nav-pills nav-stacked" role="navigation">
+    <li role="presentation" class="{{#if currentRouteIs 'index'}}active{{/if}}"><a href="{{pathFor 'index'}}">Home</a></li>
+    <li role="presentation" class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
+    <li role="presentation" class="{{#if currentRouteIs 'help'}}active{{/if}}"><a href="{{pathFor 'help.index'}}">Help</a></li>
+  </div>
+</template>

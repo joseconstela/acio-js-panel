@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <script>
+    var worker = new Worker('/lib.js');
+    worker.postMessage('endpoint.http://localhost:3000');
+    worker.postMessage('start');
+
+    var l = function(t) {
+      var entry = document.createElement('li')
+      entry.appendChild(document.createTextNode(t))
+      document.getElementById('log').appendChild(entry)
+    }
+
+    worker.onmessage = function (e) {
+      l('[WORKER] ' + e.data)
+    };
+    worker.onerror = function (e) {
+      l('[ERROR ] ' + e.data)
+    };
+  </script>
+
+  <style>
+  #log {
+    font-family: 'Lucida Console', Monaco, monospace;
+    list-style: none;
+    padding: 0;
+  }
+  </style>
+
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Web queue demo page</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+      <ul id="log"></ul>
+  </div>
+
+</body>
+</html>
