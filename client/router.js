@@ -39,7 +39,7 @@ Router.route('/jobs', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs')
+      Meteor.subscribe('Jobs', null)
     ]
   },
   data: function() {
@@ -67,7 +67,7 @@ Router.route('/jobs/:jobId/edit', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs')
+      Meteor.subscribe('Jobs', this.params.jobId)
     ]
   },
   data: function() {
@@ -90,7 +90,7 @@ Router.route('/jobs/:jobId/results', function () {
   subscriptions: function() {
     return [
       Meteor.subscribe('JobsResults', this.params.jobId, 10),
-      Meteor.subscribe('Jobs')
+      Meteor.subscribe('Jobs', this.params.jobId)
     ]
   },
   data: function() {
@@ -111,7 +111,7 @@ Router.route('/jobs/:jobId/results/all', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs'),
+      Meteor.subscribe('Jobs', this.params.jobId),
       Meteor.subscribe('JobsResults', this.params.jobId)
     ]
   },
@@ -133,13 +133,15 @@ Router.route('/jobs/:jobId/results/:resultId', function () {
 }, {
   subscriptions: function() {
     return [
+      Meteor.subscribe('Jobs', this.params.resultId),
       Meteor.subscribe('JobsResult', this.params.jobId, this.params.resultId)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        result: JobsResults.findOne({resultId: this.params.resultId, jobId: this.params.jobId})
+        result: JobsResults.findOne({resultId: this.params.resultId, jobId: this.params.jobId}),
+        job: Jobs.findOne({jobId: this.params.jobId})
       }
     }
   },
