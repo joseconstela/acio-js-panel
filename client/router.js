@@ -89,7 +89,7 @@ Router.route('/jobs/:jobId/results', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('JobsResults', this.params.jobId, 10),
+      Meteor.subscribe('jobsResultDistinct', this.params.jobId),
       Meteor.subscribe('Jobs', this.params.jobId)
     ]
   },

@@ -14,3 +14,12 @@ body { padding-top: 70px; padding-bottom: 20px; }
   margin-top: 0;
   padding-top: 0;
 }
+
+.code {
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}

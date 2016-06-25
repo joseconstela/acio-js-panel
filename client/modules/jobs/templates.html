@@ -29,14 +29,14 @@
     <td>{{createdAt}}</td>
     <td>
       {{#if equal status 'stopped'}}
-      <i class="fa fa-play green" aria-hidden="true"></i>
-      <i class="fa fa-stop blue" aria-hidden="true"></i>
+        <i class="fa fa-play green" aria-hidden="true"></i>
+        <i class="fa fa-stop blue" aria-hidden="true"></i>
       {{/if}}
       {{#if equal status 'paused'}}
-      <i class="fa fa-play green" aria-hidden="true"></i>
+        <i class="fa fa-play green" aria-hidden="true"></i>
       {{/if}}
       {{#if equal status 'working'}}
-      <i class="fa fa-stop red" aria-hidden="true"></i>
+        <i class="fa fa-stop red" aria-hidden="true"></i>
       {{/if}}
       {{#if equal status 'error'}}
       {{/if}}
@@ -95,8 +95,8 @@
     <thead>
       <tr>
         <th>Result</th>
-        <th>Hashed result</th>
-        <th>At</th>
+        <th>Result hash</th>
+        <th>Count</th>
       </tr>
     </thead>
     <tbody>
@@ -123,17 +123,25 @@
     </thead>
     <tbody>
       {{#each results}}
-      {{> jobsResultTableItem}}
+        {{> jobsResultAllTableItem}}
       {{/each}}
     </tbody>
   </table>
 </template>
 
-<template name="jobsResultTableItem">
+<template name="jobsResultAllTableItem">
   <tr>
     <td><a href="{{pathFor 'jobs.result'}}">{{resultId}}</a></td>
     <td>{{hashedResult}}</td>
     <td>{{createdAt}}</td>
+  </tr>
+</template>
+
+<template name="jobsResultTableItem">
+  <tr>
+    <td class="code">{{jsonPretty _r._id.data}}</td>
+    <td>{{_r._id.hashedResult}}</td>
+    <td>{{_r.count}}</td>
   </tr>
 </template>
 
