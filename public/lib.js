@@ -75,8 +75,8 @@
   wqInit = function () {
 
     // Import necesary scripts
-    //importScripts('https://cdn.socket.io/socket.io-1.4.5.js');
-    importScripts('/socket.io-1.4.5.js');
+    importScripts('https://cdn.socket.io/socket.io-1.4.5.js');
+    //importScripts('/socket.io-1.4.5.js');
 
     // GPU Accelerated JavaScript - not available for Web Workers
     // importScripts('http://gpu.rocks/js/gpu.js?nocache');
@@ -163,7 +163,7 @@
     wqLog(['Socket conected']);
     wqLog([]);
 
-    socket.on('error', function() {
+    socket.on('error', function(data) {
       wqLog(['ERROR!']);
     });
 
