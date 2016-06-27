@@ -1,0 +1,6 @@
+{
+  "public": {
+    "demoMode": true,
+    "jobsServerUrl": "https://aciojs-67452.onmodulus.net"
+  }
+}
