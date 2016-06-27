@@ -3,9 +3,11 @@
 
   <h3>Embedding the library</h3>
 
-  <pre>var worker = new Worker(&#39;{{jobsServerUrl}}/lib.js&#39;);
+  <pre>var worker = new Worker(&#39;/lib.js&#39;);
 worker.postMessage(&#39;endpoint.{{jobsServerUrl}}&#39;);
 worker.postMessage(&#39;ready&#39;);</pre>
+
+  <p><a href="https://github.com/joseconstela/acio-js-panel/blob/master/public/lib.js" target="_blank">Get the latest version @ GitHub</a></p>
 
   <h3>Debugging</h3>
 
