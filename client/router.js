@@ -34,6 +34,14 @@ Router.route('/help', function () {
   parent: 'index'
 })
 
+Router.route('/demo', function () {
+  this.render('demo')
+}, {
+  name: 'demo.index',
+  title: 'Demo',
+  parent: 'index'
+})
+
 Router.route('/jobs', function () {
   this.render('jobs')
 }, {

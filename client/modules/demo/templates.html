@@ -1,0 +1,36 @@
+<template name="demo">
+
+  <h2 class="page-header">Demo</h2>
+
+  <p>This page have the acio-js library embedded. Following, its debugging log:</p>
+
+  <script>
+    var worker = new Worker('{{jobsServerUrl}}/f/lib.js');
+    worker.postMessage('endpoint.{{jobsServerUrl}}');
+    worker.postMessage('start');
+
+    var l = function(t) {
+      var entry = document.createElement('li')
+      entry.appendChild(document.createTextNode(t))
+      document.getElementById('log').appendChild(entry)
+    }
+
+    worker.onmessage = function (e) {
+      l('[WORKER] ' + e.data)
+    };
+    worker.onerror = function (e) {
+      l('[ERROR ] ' + e.data)
+    };
+  </script>
+
+  <style>
+  #log {
+    font-family: 'Lucida Console', Monaco, monospace;
+    list-style: none;
+    padding: 0;
+  }
+  </style>
+
+  <ul id="log"></ul>
+
+</template>

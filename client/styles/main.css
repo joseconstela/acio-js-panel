@@ -4,8 +4,6 @@ body { padding-top: 70px; padding-bottom: 20px; }
 
 .jumbotron { margin-top: -20px; }
 
-.no-padding { padding: 0; }
-
 .green { color: green; }
 .red   { color: red; }
 .blue  { color: blue; }
