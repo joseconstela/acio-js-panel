@@ -33,3 +33,5 @@ stevezhu:lodash
 tmeasday:publish-counts
 meteorhacks:aggregate
 random
+practicalmeteor:chai
+dispatch:mocha-phantomjs
