@@ -22,7 +22,7 @@ Meteor.publish('jobsResultDistinct', function(jobId) {
       },
       {
         $group: {
-          _id: { hashedResult: "$hashedResult", resultId: "$resultId", data: "$data" },
+          _id: { hashedResult: "$hashedResult", data: "$data" },
           count: { "$sum": 1 }
         }
       }

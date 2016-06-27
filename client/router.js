@@ -104,7 +104,7 @@ Router.route('/jobs/:jobId/results', function () {
   data: function() {
     if (this.ready) {
       return {
-        results: JobsResults.find(),
+        results: JobsResults.find({}, {sort: {'_r.count':-1}}),
         job: Jobs.findOne({jobId: this.params.jobId})
       }
     }
