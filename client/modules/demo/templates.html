@@ -5,7 +5,7 @@
   <p>This page have the acio-js library embedded. Following, its debugging log:</p>
 
   <script>
-    var worker = new Worker('{{jobsServerUrl}}/f/lib.js');
+    var worker = new Worker('/lib.js');
     worker.postMessage('endpoint.{{jobsServerUrl}}');
     worker.postMessage('start');
 
