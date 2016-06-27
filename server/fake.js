@@ -1,6 +1,6 @@
 Meteor.startup(() => {
 
-  if(process.env.NODE_ENV === 'development'){
+  if(process.env.NODE_ENV === 'development' || Meteor.settings.public.demoMode) {
     Jobs.remove({})
     JobsResults.remove({})
     Meteor.users.remove({})
@@ -31,6 +31,12 @@ Meteor.startup(() => {
       data: {
         lol: true
       }
+    })
+  }
+
+  if (Meteor.settings.public.demoMode) {
+    Accounts.config({
+      forbidClientAccountCreation : true
     })
   }
 

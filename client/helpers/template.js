@@ -4,28 +4,36 @@ Template.registerHelper('currentRouteIs', (name) => {
   } catch (Ex) {
     return false;
   }
-});
+})
+
+Template.registerHelper('demoMode', () => {
+  return Meteor.settings.public.demoMode
+})
+
+Template.registerHelper('jobsServerUrl', () => {
+  return Meteor.settings.public.jobsServerUrl
+})
 
 Template.registerHelper('absoluteUrl', (subfix) => {
-  return Meteor.absoluteUrl() + subfix || '';
-});
+  return Meteor.absoluteUrl() + subfix || ''
+})
 
 Template.registerHelper('debug', (optionalValue) => {
-  console.log("Current Context");
-  console.log("====================");
-  console.log(this);
+  console.log("Current Context")
+  console.log("====================")
+  console.log(this)
 
   if (optionalValue) {
-    console.log("Value");
-    console.log("====================");
-    console.log(optionalValue);
+    console.log("Value")
+    console.log("====================")
+    console.log(optionalValue)
   }
-});
+})
 
 Template.registerHelper('equal', (terma, termb) => {
   return terma === termb
-});
+})
 
 Template.registerHelper('jsonPretty', function(data){
-  return JSON.stringify(data, null, 2);
-});
+  return JSON.stringify(data, null, 2)
+})

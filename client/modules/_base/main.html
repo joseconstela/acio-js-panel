@@ -1,5 +1,5 @@
 <head>
-  <title>dwebqueue</title>
+  <title>Acio-js management panel</title>
   <noscript>
     <style>
     body {font-size: 3em;text-align: center;}
@@ -22,7 +22,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-12 no-padding">
+      <div class="col-md-12">
         {{> breadcrumb}}
       </div>
     </div>
@@ -50,7 +50,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Project name</a>
+        <a class="navbar-brand" href="https://joseconstela.github.io/acio-js/" target="_blank">Acio-js management panel</a>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
@@ -63,7 +63,7 @@
 <template name="footer">
   <hr>
   <footer role="contentinfo">
-    <p>&copy; 2015 Company, Inc.</p>
+    <p><a href="">acio-js website</a></p>
   </footer>
 </template>
 
@@ -72,5 +72,8 @@
     <li role="presentation" class="{{#if currentRouteIs 'index'}}active{{/if}}"><a href="{{pathFor 'index'}}">Home</a></li>
     <li role="presentation" class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
     <li role="presentation" class="{{#if currentRouteIs 'help'}}active{{/if}}"><a href="{{pathFor 'help.index'}}">Help</a></li>
+    {{#if demoMode}}
+    <li role="presentation" class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
+    {{/if}}
   </div>
 </template>
