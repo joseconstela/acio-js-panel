@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '0.10'
+sudo: required
+before_install:
+- curl https://install.meteor.com | /bin/sh
+- npm install -g modulus@next
+script: meteor test --once --driver-package dispatch:mocha-phantomjs
+deploy:
+  provider: modulus
+  project_name: acio-js-panel
+  api_key:
+    secure: TWz4wdhfrnTiifoG/HEsui64qgdAHCxAou7xTfi9wiGtl+RTYZaHnpEHrpC4z+EiOMmC2ODznnyvfHyn4eN2sBNdrxAf9DCSdUTlSh+b1LeN9bW/EcLlVV7sZ7kbJes52hOOEmqcv0MzGN59YGkJ4Um9xa+w3PY+YNqkK23n4rqzLeyWN9sic7WWYMN5DX7bxpsLudJJ8C7ByQAgCQ6h1RFFvhJMjJD+gMMrl8Fv8sRG29hJh1p9ZhzuEm2N2l8ONZgkqNIm0ktzXexKasc7L75ymjeJeIaaNi8njUA9RG7kdPmIrhu8FiA0SkA4msFBtwZr3OhGdv01XRrzuGA/B6/gop3TJhSTkvDXkXsJ7kyUkcG16fcpHGU0mznaiqpWfPj+fsrPDAYVm0VzKUk11zkhBmreRYUFCChecMHhmOu5sZnd9niM8m8C/ODXwpvGXOwT/hkUdXbdn7fFWlTxUOWrOdK9tJe68OMPCLzjE9TuV7Ub/A1W7Txcp5DoPqt3NzAG+79w6OCAY+ua1Up+YbvnxPJTexbBR0EvtBGZFzsJwI9cbzDBtwnihefRhomzdkrXVmW/CDEkvd5BDW1ga/DcwQ38XFaNI5HwEpYsxefpStwbPKiDIgHo1g1MCJ2RaooRPqdNLEaRoFna65OMoSgoG3sHLeEH4NOzuyXpW5Y=
