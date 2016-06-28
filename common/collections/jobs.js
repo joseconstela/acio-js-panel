@@ -53,15 +53,16 @@ Jobs.attachSchema(new SimpleSchema({
   },
   'history.$.status': {
     type: String,
-    optional: false
+    optional: false,
+    allowedValues: ['created', 'stopped', 'paused', 'working', 'finished', 'cancelled', 'updated']
   },
   'history.$.at': {
     type: Date,
     optional: false
   },
-  'history.$.comment': {
+  'history.$.userId': {
     type: String,
-    optional: true
+    optional: false
   },
   type: {
     type: String,

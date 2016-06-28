@@ -5,7 +5,7 @@ Meteor.startup(() => {
     JobsResults.remove({})
     Meteor.users.remove({})
 
-    Accounts.createUser({
+    let userId = Accounts.createUser({
       email : 'admin@admin.com',
       password : 'admin'
     })
@@ -20,7 +20,7 @@ Meteor.startup(() => {
         {
           status: 'working',
           at: new Date(),
-          comment: 'created from server faker'
+          userId: userId
         }
       ]
     })

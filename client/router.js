@@ -157,3 +157,29 @@ Router.route('/jobs/:jobId/results/:resultId', function () {
   title: 'Result',
   parent: 'jobs.results'
 })
+
+Jobs.before.insert( (userId, doc) => {
+
+  if (!doc.history) {
+    doc.history = [{
+      at: new Date(),
+      status: 'created'
+    }]
+  }
+
+}, {fetchPrevious: false})
+
+
+Jobs.before.update( (userId, doc, fieldNames, modifier, options) => {
+
+  delete modifier['$set'].history
+
+  modifier['$push'] = {}
+
+  modifier['$push'].history = {
+    at: new Date(),
+    status: 'updated',
+    userId: Meteor.userId()
+  }
+
+})
