@@ -31,7 +31,7 @@ Jobs.attachSchema(new SimpleSchema({
   status: {
     type: String,
     optional: false,
-    allowedValues: ['stopped', 'paused', 'working', 'error', 'finished', 'cancelled'],
+    allowedValues: ['stopped', 'working', 'finished', 'error'],
     autoValue: function () {
       if (!this.isSet) {
         return 'stopped'
@@ -54,7 +54,7 @@ Jobs.attachSchema(new SimpleSchema({
   'history.$.status': {
     type: String,
     optional: false,
-    allowedValues: ['created', 'stopped', 'paused', 'working', 'finished', 'cancelled', 'updated']
+    allowedValues: ['created', 'stopped', 'working', 'finished', 'updated']
   },
   'history.$.at': {
     type: Date,
