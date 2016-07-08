@@ -24,17 +24,17 @@
 
 <template name="jobsTableItem">
   <tr>
-    <th scope="row"><a href="{{pathFor 'jobs.edit'}}"><code>{{name}}</code></a></th>
+    <th scope="row"><a href="{{pathFor 'jobs.edit'}}">{{name}}</a></th>
     <td>{{status}}</td>
     <td>{{createdAt}}</td>
     <td>
       {{#if equal status 'stopped'}}
-        <i class="fa fa-play green job-status" data-job-status="working" aria-hidden="true"></i>
+        <a href="#" class="job-status-switch" data-job-status="working">Start</a>
       {{/if}}
       {{#if equal status 'working'}}
-        <i class="fa fa-stop red job-status" data-job-status="stopped" aria-hidden="true"></i>
+        <a href="#" class="job-status-switch" data-job-status="stopped">Stop</a>
       {{/if}}
-      <a href="{{pathFor 'jobs.results'}}"><i class="fa fa-search blue" aria-hidden="true"></i></a>
+      - <a href="{{pathFor 'jobs.results'}}">See results</a>
     </td>
   </tr>
 </template>
@@ -86,7 +86,7 @@
 </template>
 
 <template name="jobsResults">
-  <h2 class="page-header">Top matching job results</h2>
+  <h2 class="page-header">Top job results</h2>
 
   <table class="table table-condensed table-striped table-bordered">
     <thead>
