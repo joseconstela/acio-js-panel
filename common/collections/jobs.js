@@ -12,7 +12,7 @@ Jobs.attachSchema(new SimpleSchema({
     type: String,
     optional: false,
     autoValue: function () {
-      if (!this.isSet) {
+      if (this.isInsert) {
         return uuid.new()
       }
     },
