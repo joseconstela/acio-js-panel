@@ -56,7 +56,9 @@
 
   {{#if equal job.status 'working'}}
     <div role="alert" class="alert alert-warning">
-      Can not edit working jobs with <strong>working</strong> status
+      Can not edit working jobs with <strong>working</strong> status.
+      You first need to stop it.
+      Note that changing jobs code may change and screw its results.
     </div>
   {{else}}
     {{> jobsAlertMessage}}
