@@ -10,6 +10,7 @@
     worker.postMessage('start');
 
     var l = function(t) {
+      if(!document.getElementById('log')) { return; }
       var entry = document.createElement('li');
       var container = document.getElementById('log');
       entry.appendChild(document.createTextNode(t));
