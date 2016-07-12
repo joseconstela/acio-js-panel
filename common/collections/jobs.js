@@ -8,18 +8,6 @@ Jobs.allow({
 
 Jobs.attachSchema(new SimpleSchema({
 
-  jobId: {
-    type: String,
-    optional: false,
-    autoValue: function () {
-      if (this.isInsert) {
-        return uuid.new()
-      }
-    },
-    autoform: {
-      type: 'hidden'
-    }
-  },
   name: {
     type: String,
     optional: false
@@ -62,7 +50,12 @@ Jobs.attachSchema(new SimpleSchema({
   },
   'history.$.userId': {
     type: String,
-    optional: false
+    optional: false,
+    autoValue: function() {
+      if (!this.isSet) {
+        return Meteor.userId()
+      }
+    }
   },
   type: {
     type: String,
