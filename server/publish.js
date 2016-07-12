@@ -1,5 +1,5 @@
 Meteor.publish('Jobs', (jobId) =>
-jobId ? Jobs.find({jobId: jobId}) : Jobs.find()
+  jobId ? Jobs.find({_id: jobId}) : Jobs.find()
 )
 
 Meteor.publish('JobsResults', (jobId, limit) =>
@@ -10,24 +10,30 @@ Meteor.publish('JobsResult', (jobId, resultId) =>
 JobsResults.find({jobId:jobId, resultId: resultId})
 )
 
-Meteor.publish('jobsResultDistinct', function(jobId) {
+Meteor.publish('jobsResultDistinct', function(jobId, limit) {
 
-  let results = JobsResults.aggregate(
-    [
-      {
-        $match: {
-          'jobId': jobId,
-          'data': {$exists: true}
-        }
-      },
-      {
-        $group: {
-          _id: { hashedResult: "$hashedResult", data: "$data" },
-          count: { "$sum": 1 }
-        }
+  let aggregation = [
+    {
+      $match: {
+        'jobId': jobId,
+        'data': {$exists: true}
       }
-    ]
-  )
+    },
+    {
+      $group: {
+        _id: { hashedResult: "$hashedResult", data: "$data" },
+        count: { "$sum": 1 }
+      }
+    }
+  ]
+
+  if (!!limit) {
+    aggregation.push({
+      $limit: limit
+    })
+  }
+
+  let results = JobsResults.aggregate(aggregation)
 
   var r = this;
   _.each(results, function(result) {
