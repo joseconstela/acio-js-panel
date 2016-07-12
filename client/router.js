@@ -26,14 +26,6 @@ Router.route('/', function () {
   title: 'Home'
 })
 
-Router.route('/help', function () {
-  this.render('help')
-}, {
-  name: 'help.index',
-  title: 'Help',
-  parent: 'index'
-})
-
 Router.route('/demo', function () {
   this.render('demo')
 }, {
@@ -53,7 +45,7 @@ Router.route('/jobs', function () {
   data: function() {
     if (this.ready) {
       return {
-        jobs: Jobs.find()
+        jobs: Jobs.find({}, {sort: {createdAt: -1}})
       }
     }
   },
@@ -70,18 +62,18 @@ Router.route('/jobs/add', function () {
   parent: 'jobs.index'
 })
 
-Router.route('/jobs/:jobId/edit', function () {
+Router.route('/jobs/:_id/edit', function () {
   this.render('jobsEdit')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params.jobId)
+      Meteor.subscribe('Jobs', this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        job: Jobs.findOne({jobId: this.params.jobId})
+        job: Jobs.findOne({_id: this.params._id})
       }
     }
   },
@@ -92,70 +84,92 @@ Router.route('/jobs/:jobId/edit', function () {
   parent: 'jobs.index'
 })
 
-Router.route('/jobs/:jobId/results', function () {
-  this.render('jobsResults')
+Router.route('/jobs/:_id/results', function () {
+  this.render('jobsTop5Results')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('jobsResultDistinct', this.params.jobId),
-      Meteor.subscribe('Jobs', this.params.jobId)
+      Meteor.subscribe('jobsResultDistinct', this.params._id, 5),
+      Meteor.subscribe('Jobs', this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
         results: JobsResults.find({}, {sort: {'_r.count':-1}}),
-        job: Jobs.findOne({jobId: this.params.jobId})
+        job: Jobs.findOne({_id: this.params._id})
       }
     }
   },
-  name: 'jobs.results',
+  name: 'jobs.results.index',
   title: 'Results',
   parent: 'jobs.edit'
 })
 
-Router.route('/jobs/:jobId/results/all', function () {
+Router.route('/jobs/:_id/results/top', function () {
+  this.render('jobsAllTopResults')
+}, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('jobsResultDistinct', this.params._id),
+      Meteor.subscribe('Jobs', this.params._id)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        results: JobsResults.find({}, {sort: {'_r.count':-1}}),
+        job: Jobs.findOne({_id: this.params._id})
+      }
+    }
+  },
+  name: 'jobs.results.top',
+  title: 'All top results',
+  parent: 'jobs.results.index'
+})
+
+Router.route('/jobs/:_id/results/all', function () {
   this.render('jobsResultsAll')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params.jobId),
-      Meteor.subscribe('JobsResults', this.params.jobId)
+      Meteor.subscribe('Jobs', this.params._id),
+      Meteor.subscribe('JobsResults', this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
         results: JobsResults.find(),
-        job: Jobs.findOne({jobId: this.params.jobId})
+        job: Jobs.findOne({_id: this.params._id})
       }
     }
   },
   name: 'jobs.results.all',
   title: 'All',
-  parent: 'jobs.results'
+  parent: 'jobs.results.index'
 })
 
-Router.route('/jobs/:jobId/results/:resultId', function () {
+Router.route('/jobs/:_id/results/:resultId', function () {
   this.render('jobsResultsView')
 }, {
   subscriptions: function() {
     return [
       Meteor.subscribe('Jobs', this.params.resultId),
-      Meteor.subscribe('JobsResult', this.params.jobId, this.params.resultId)
+      Meteor.subscribe('JobsResult', this.params._id, this.params.resultId)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        result: JobsResults.findOne({resultId: this.params.resultId, jobId: this.params.jobId}),
-        job: Jobs.findOne({jobId: this.params.jobId})
+        result: JobsResults.findOne({resultId: this.params.resultId, jobId: this.params._id}),
+        job: Jobs.findOne({_id: this.params._id})
       }
     }
   },
   name: 'jobs.result',
   title: 'Result',
-  parent: 'jobs.results'
+  parent: 'jobs.results.index'
 })
 
 Jobs.before.insert( (userId, doc) => {
