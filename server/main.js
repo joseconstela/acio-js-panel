@@ -3,7 +3,7 @@ Meteor.startup(() => {
   Meteor.methods({
     updateJobStatus: (jobId, status) => {
       Jobs.update({
-        jobId: jobId
+        _id: jobId
       }, {
         $set: {
           status: status
@@ -16,6 +16,12 @@ Meteor.startup(() => {
           }
         }
       })
+
+      if (status === 'working') {
+        CappedJobs.insert({
+          jobId: jobId
+        })
+      }
     }
   })
 
