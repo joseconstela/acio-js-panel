@@ -10,12 +10,11 @@ Meteor.startup(() => {
       password : 'admin'
     })
 
-    Jobs.insert({
-      jobId: "xxxx",
+    var jobId = Jobs.insert({
       name: "name",
       description: "Test created by server/main.js",
       status: "working",
-      code: "wqResult([1,2,3,4])",
+      code: "function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;};wqResult(getRandomInt(1,100), {reqNewJob:true});",
       history: [
         {
           status: 'working',
@@ -27,7 +26,7 @@ Meteor.startup(() => {
 
     JobsResults.insert({
         "_id" : "5yAmmFKz2y4xBAzMd",
-        "jobId" : "xxxx",
+        "jobId" : jobId,
         "hashedResult" : "123435673",
         "data" : {
             "lol" : true
@@ -38,7 +37,7 @@ Meteor.startup(() => {
 
     JobsResults.insert({
         "_id" : "5yAmmFKz2y4xBAzMe",
-        "jobId" : "xxxx",
+        "jobId" : jobId,
         "hashedResult" : "123435673",
         "data" : {
             "lol" : true
@@ -49,7 +48,7 @@ Meteor.startup(() => {
 
     JobsResults.insert({
         "_id" : "5yAmmFKz2y4xBAzMf",
-        "jobId" : "xxxx",
+        "jobId" : jobId,
         "hashedResult" : "123435675",
         "data" : {
             "lol" : false
