@@ -15,7 +15,7 @@
     </thead>
     <tbody>
       {{#each jobs}}
-      {{>jobsTableItem}}
+        {{>jobsTableItem}}
       {{/each}}
     </tbody>
   </table>
@@ -23,25 +23,24 @@
 </template>
 
 <template name="jobsTableItem">
-  <tr>
+  <tr class="{{jobIsRunningCssClass this}}">
     <th scope="row"><a href="{{pathFor 'jobs.edit'}}">{{name}}</a></th>
     <td>{{status}}</td>
     <td>{{createdAt}}</td>
     <td>
-      {{#if equal status 'stopped'}}
+      {{#if jobIsRunning this}}
+        <a href="#" class="job-status-switch" data-job-status="stopped">Stop</a>
+      {{else}}
         <a href="#" class="job-status-switch" data-job-status="working">Start</a>
       {{/if}}
-      {{#if equal status 'working'}}
-        <a href="#" class="job-status-switch" data-job-status="stopped">Stop</a>
-      {{/if}}
-      - <a href="{{pathFor 'jobs.results'}}">See results</a>
+      - <a href="{{pathFor 'jobs.results.index'}}">See results</a>
     </td>
   </tr>
 </template>
 
 <template name="jobsAlertMessage">
   <div class="alert alert-warning" role="alert">
-    Visit the help section to check how to return jobs results and other available methods. <a href="{{pathFor 'help.index'}}" class="alert-link">Visit the help section</a>
+    Visit the help section to check how to return jobs results and other available methods. <a href="https://joseconstela.github.io/acio-js/help.html" class="alert-link">Visit the help section</a>
   </div>
 </template>
 
@@ -83,12 +82,12 @@
     </tbody>
   </table>
 
-  <a href="{{pathFor 'jobs.results' data=job}}">See job's results</a>
+  <a href="{{pathFor 'jobs.results.index' data=job}}">See job's results</a>
 
 </template>
 
-<template name="jobsResults">
-  <h2 class="page-header">Top job results</h2>
+<template name="jobsTop5Results">
+  <h2 class="page-header">Top 5 job results</h2>
 
   <table class="table table-condensed table-striped table-bordered">
     <thead>
@@ -105,8 +104,35 @@
     </tbody>
   </table>
 
-  <a href="{{pathFor 'jobs.results.all' data=job}}">All results</a>
+  {{> jobResultsLinks}}
 
+</template>
+
+<template name="jobResultsLinks">
+  <a class="btn btn-primary {{#if currentRouteIs 'job.results.index'}}active{{/if}}" href="{{pathFor 'jobs.results.index' data=job}}">Top 5 job results</a>
+  <a class="btn btn-primary {{#if currentRouteIs 'job.results.top'}}active{{/if}}" href="{{pathFor 'jobs.results.top' data=job}}">All top results</a>
+  <a class="btn btn-primary {{#if currentRouteIs 'job.results.all'}}active{{/if}}" href="{{pathFor 'jobs.results.all' data=job}}">All results</a>
+</template>
+
+<template name="jobsAllTopResults">
+  <h2 class="page-header">All top job results</h2>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Result</th>
+        <th>Result hash</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each results}}
+      {{> jobsResultTableItem}}
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{> jobResultsLinks}}
 </template>
 
 <template name="jobsResultsAll">
@@ -126,6 +152,9 @@
       {{/each}}
     </tbody>
   </table>
+
+  {{> jobResultsLinks}}
+
 </template>
 
 <template name="jobsResultAllTableItem">
