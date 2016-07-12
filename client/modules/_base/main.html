@@ -6,10 +6,12 @@
     body:after {content: "Please enable JavaScript";}
     </style>
   </noscript>
+
+  <script src="/codemirror/codemirror.js"></script>
+  <link rel="stylesheet" href="/codemirror/codemirror.css">
 </head>
 
 <body>
-
 </body>
 
 <template name="siteLayout">
@@ -71,7 +73,7 @@
   <div class="nav nav-pills nav-stacked" role="navigation">
     <li role="presentation" class="{{#if currentRouteIs 'index'}}active{{/if}}"><a href="{{pathFor 'index'}}">Home</a></li>
     <li role="presentation" class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
-    <li role="presentation" class="{{#if currentRouteIs 'help'}}active{{/if}}"><a href="{{pathFor 'help.index'}}">Help</a></li>
+    <li role="presentation"><a href="https://joseconstela.github.io/acio-js/help.html" target="_blank">Help</a></li>
     {{#if demoMode}}
     <li role="presentation" class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
     {{/if}}
