@@ -34,6 +34,14 @@ Template.registerHelper('equal', (terma, termb) => {
   return terma === termb
 })
 
-Template.registerHelper('jsonPretty', function(data){
+Template.registerHelper('jsonPretty', (data) => {
   return JSON.stringify(data, null, 2)
+})
+
+Template.registerHelper('jobIsRunning', (job) => {
+  return job.status === 'working';
+})
+
+Template.registerHelper('jobIsRunningCssClass', (job) => {
+  return job.status === 'working' ? 'success' : 'danger';
 })
