@@ -8,7 +8,7 @@ Visit [Acio-js website](https://joseconstela.github.io/acio-js/) for more inform
 
 <hr>
 
-Remember to visit Acio-js repository: [joseconstela.com/acio-js](http://joseconstela.com/acio-js)
+Remember to visit Acio-js repository: [joseconstela/acio-js](https://github.com/joseconstela/acio-js)
 
 <hr>
 
