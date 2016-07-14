@@ -10,6 +10,8 @@
 ;(function (global) {
   'use strict';
 
+  var loaded = false;
+
   /**
   * @summary Object containing all configuration parameters
   * @type {Object}
@@ -70,6 +72,13 @@
   var socket = null;
 
   /**
+   * [function description]
+   * @param  {[type]} d [description]
+   * @return {[type]}   [description]
+   */
+  var debugging = function(){console.log(arguments);};
+
+  /**
   * [extend description]
   * @param  {[type]} m [description]
   * @param  {[type]} e [description]
@@ -111,10 +120,15 @@
       }
     };
 
-    indexedDB.deleteDatabase(config.storage.name);
+    // indexedDB.deleteDatabase(config.storage.name);
     var db = indexedDB.open(config.storage.name, config.storage.version);
 
     db.onerror = function(ev) {
+      debugging({
+        component: 'storage',
+        type: 'danger',
+        text: 'Error'
+      })
       cb(ev, null);
     };
     db.onupgradeneeded = function(ev) {
@@ -148,9 +162,21 @@
   */
   function workerMessage(data) {
     var wData = JSON.parse(data.data);
-    console.log(wData);
+
     if(wData.type === 'result') {
       storage('delete', [wData.jobId], function(){})
+
+      debugging({
+        component: 'worker',
+        type: 'info',
+        action: 'result',
+        data: {
+          jobId: wData.jobId,
+          result: wData.result,
+          workerId: wData.workerId
+        }
+      });
+
       emit('result', extend(
         wData.result,
         {jobId: wData.jobId}
@@ -163,8 +189,6 @@
    * @return {[type]} [description]
    */
   function splitJobs() {
-    console.log('currentJobs', currentJobs.length);
-
     for(var i = 0; i < currentJobs.length; i++) {
       workersList[i].worker.onmessage = workerMessage;
 
@@ -186,11 +210,30 @@
 
     initSocket(function() {
 
+      debugging({
+        component: 'core',
+        type: 'info',
+        text: 'Socket connected'
+      });
+
       loadJobs(function(error, jobs) {
         if (error) return false;
 
         // TODO
-        if (!jobs) return emit('getJobs', { limit: workersLimit });
+        if (!jobs) {
+          debugging({
+            component: 'core',
+            type: 'info',
+            text: 'Loading Jobs from server'
+          });
+          return emit('getJobs', { limit: workersLimit });
+        }
+
+        debugging({
+          component: 'core',
+          type: 'info',
+          text: 'Jobs loaded from DB'
+        });
 
         currentJobs = jobs;
         splitJobs();
@@ -207,7 +250,6 @@
   * @param  {string} data [description]
   */
   function emit(type, data) {
-    console.log(['<~', type, data]);
     socket.emit(type, data);
   };
 
@@ -220,7 +262,12 @@
     socket = io(endpoint);
 
     socket.on('error', function(data) {
-      console.log(['ERROR!']);
+      debugging({
+        component: 'socket',
+        type: 'warning',
+        text: 'on(error)',
+        data: data
+      });
     });
 
     socket.on('jobs', function(jobs) {
@@ -232,7 +279,7 @@
     });
 
     socket.on('newJob', function(jobs) {
-      console.log('newJob', jobs);
+
       storage('save', jobs, function(error, result) {
         if (error) return false;
         currentJobs.concat(jobs);
@@ -317,31 +364,12 @@
       return new Aciojs();
     }
 
-    // GPU Accelerated JavaScript Library - not available for Web Workers
-    // importScripts('http://gpu.rocks/js/gpu.js?nocache');
 
-    // Detect the storage system to use as cache
-    detectStoreSystem(function(err, result) {
-      if (err) {
-        throw "Can't detect storage system";
-      } else {
-        console.log('Storage system: ' + result);
-        console.log('Core ready');
-        coreReady = true;
-        // Check if all requirements to start working are fullfilled.
-        readySteady();
-      }
-    });
-
-    for(var i = 0; i < workersLimit; i++) {
-      workersList.push({
-        worker: new Worker('/worker.js'),
-        inUse: false
-      });
-    }
 
     return this;
   };
+
+
 
   /**
   * @summary [onmessage description]
@@ -355,11 +383,48 @@
     }
   };
 
+  Aciojs.prototype.load = function() {
+    if (!!loaded) { return false; }
+
+    // GPU Accelerated JavaScript Library - not available for Web Workers
+    // importScripts('http://gpu.rocks/js/gpu.js?nocache');
+
+    // Detect the storage system to use as cache
+    detectStoreSystem(function(err, result) {
+      if (err) {
+        throw "Can't detect storage system";
+      } else {
+        debugging({
+          component: 'storage',
+          type: 'info',
+          text: 'Storage system: ' + result
+        });
+
+        coreReady = true;
+        // Check if all requirements to start working are fullfilled.
+        readySteady();
+      }
+    });
+
+    for(var i = 0; i < workersLimit; i++) {
+      workersList.push({
+        worker: new Worker('/worker.js'),
+        inUse: false
+      });
+    }
+
+    loaded = true;
+  }
+
+
+
   /**
   * [function description]
   * @return {[type]} [description]
   */
   Aciojs.prototype.ready = function() {
+    if (!!readySignal) { return false; }
+
     readySignal = true;
     readySteady();
   };
@@ -376,6 +441,8 @@
   * @return {[type]}   [description]
   */
   Aciojs.prototype.endpoint = function(e) {
+    if (endpoint !== '') { return false; }
+
     if (!!e) {
       endpoint = e;
       readySteady();
@@ -383,16 +450,10 @@
     return endpoint;
   };
 
-  /**
-  * [function description]
-  * @return {[type]} [description]
-  */
-  Aciojs.prototype.status = function() {
-    return {
-      coreReady: coreReady,
-      readySignal: readySignal,
-      endpoint: endpoint
-    };
+  Aciojs.prototype.debug = function(func) {
+    if (typeof func === 'function'){
+      debugging = func;
+    }
   };
 
   if (typeof define === 'function' && define.amd) {
