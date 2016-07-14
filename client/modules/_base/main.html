@@ -8,6 +8,10 @@
   </noscript>
   <script src="/aciojs.js"></script>
   <script src="/codemirror/codemirror.js"></script>
+  <script src="/codemirror/searchcursor.js"></script>
+  <script src="/codemirror/search.js"></script>
+  <script src="/codemirror/javascript.js"></script>
+  <script src="/codemirror/jumptoline.js"></script>
   <link rel="stylesheet" href="/codemirror/codemirror.css">
 </head>
 
@@ -29,10 +33,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
-        {{> appMenu}}
-      </div>
-      <div class="col-md-10" role="main">
+      <div class="col-md-12" role="main">
         {{> yield}}
       </div>
     </div>
@@ -52,9 +53,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="https://joseconstela.github.io/acio-js/" target="_blank">Acio-js management panel</a>
+        <a class="navbar-brand" href="https://joseconstela.github.io/acio-js/" target="_blank">Aciojs</a>
       </div>
-
+      <ul class="nav navbar-nav">
+        <li class="{{#if currentRouteIs 'index'}}active{{/if}}"><a href="{{pathFor 'index'}}">Home</a></li>
+        <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
+        {{#if demoMode}}
+          <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
+        {{/if}}
+        <li><a href="https://joseconstela.github.io/acio-js/help.html" target="_blank">Help</a></li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         {{> loginButtons}}
       </ul>
@@ -71,11 +79,6 @@
 
 <template name="appMenu">
   <div class="nav nav-pills nav-stacked" role="navigation">
-    <li role="presentation" class="{{#if currentRouteIs 'index'}}active{{/if}}"><a href="{{pathFor 'index'}}">Home</a></li>
-    <li role="presentation" class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
-    <li role="presentation"><a href="https://joseconstela.github.io/acio-js/help.html" target="_blank">Help</a></li>
-    {{#if demoMode}}
-    <li role="presentation" class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
-    {{/if}}
+
   </div>
 </template>
