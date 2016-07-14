@@ -136,7 +136,7 @@
 </template>
 
 <template name="jobsResultsAll">
-  <h2 class="page-header">All results</h2>
+  <h2 class="page-header">All results </h2>
 
   <table class="table table-condensed table-striped table-bordered">
     <thead>
@@ -159,7 +159,7 @@
 
 <template name="jobsResultAllTableItem">
   <tr>
-    <td><a href="{{pathFor 'jobs.result'}}">{{resultId}}</a></td>
+    <td><a href="{{pathFor 'jobs.result'}}">{{_id}}</a></td>
     <td>{{hashedResult}}</td>
     <td>{{createdAt}}</td>
   </tr>

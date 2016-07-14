@@ -150,50 +150,24 @@ Router.route('/jobs/:_id/results/all', function () {
   parent: 'jobs.results.index'
 })
 
-Router.route('/jobs/:_id/results/:resultId', function () {
+Router.route('/jobs/:jobId/results/:_id', function () {
   this.render('jobsResultsView')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params.resultId),
-      Meteor.subscribe('JobsResult', this.params._id, this.params.resultId)
+      Meteor.subscribe('Jobs', this.params.jobId),
+      Meteor.subscribe('JobsResult', this.params.jobId, this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        result: JobsResults.findOne({resultId: this.params.resultId, jobId: this.params._id}),
-        job: Jobs.findOne({_id: this.params._id})
+        result: JobsResults.findOne({_id: this.params._id, jobId: this.params.jobId}),
+        job: Jobs.findOne({_id: this.params.jobId})
       }
     }
   },
   name: 'jobs.result',
   title: 'Result',
   parent: 'jobs.results.index'
-})
-
-Jobs.before.insert( (userId, doc) => {
-
-  if (!doc.history) {
-    doc.history = [{
-      at: new Date(),
-      status: 'created'
-    }]
-  }
-
-}, {fetchPrevious: false})
-
-
-Jobs.before.update( (userId, doc, fieldNames, modifier, options) => {
-
-  delete modifier['$set'].history
-
-  modifier['$push'] = {}
-
-  modifier['$push'].history = {
-    at: new Date(),
-    status: 'updated',
-    userId: Meteor.userId()
-  }
-
 })

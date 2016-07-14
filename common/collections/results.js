@@ -15,15 +15,6 @@ JobsResults.attachSchema(new SimpleSchema({
       type: 'hidden'
     }
   },
-  resultId: {
-    type: String,
-    optional: false,
-    autoValue: function () {
-      if (!this.isSet) {
-        return uuid.new()
-      }
-    }
-  },
   hashedResult: {
     type: String,
     optional: false,

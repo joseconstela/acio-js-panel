@@ -14,7 +14,11 @@ Jobs.attachSchema(new SimpleSchema({
   },
   description: {
     type: String,
-    optional: true
+    optional: true,
+    autoform: {
+      type: 'textarea',
+      rows: 2
+    }
   },
   status: {
     type: String,
@@ -57,16 +61,6 @@ Jobs.attachSchema(new SimpleSchema({
       }
     }
   },
-  type: {
-    type: String,
-    optional: false,
-    allowedValues: ['function'],
-    autoValue: function () {
-      if (!this.isSet) {
-        return 'function'
-      }
-    }
-  },
   code: {
     type: String,
     optional: true,
@@ -91,3 +85,28 @@ Jobs.attachSchema(new SimpleSchema({
   }
 
 }))
+
+Jobs.before.insert( (userId, doc) => {
+
+  if (!doc.history) {
+    doc.history = [{
+      at: new Date(),
+      status: 'created'
+    }]
+  }
+
+}, {fetchPrevious: false})
+
+Jobs.before.update( (userId, doc, fieldNames, modifier, options) => {
+
+  delete modifier['$set'].history
+
+  modifier['$push'] = {}
+
+  modifier['$push'].history = {
+    at: new Date(),
+    status: 'updated',
+    userId: Meteor.userId()
+  }
+
+})

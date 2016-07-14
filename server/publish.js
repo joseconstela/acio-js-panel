@@ -7,7 +7,7 @@ JobsResults.find({jobId:jobId}, {limit: limit, sort: {createdAt:-1}})
 )
 
 Meteor.publish('JobsResult', (jobId, resultId) =>
-JobsResults.find({jobId:jobId, resultId: resultId})
+JobsResults.find({jobId:jobId, _id: resultId})
 )
 
 Meteor.publish('jobsResultDistinct', function(jobId, limit) {
