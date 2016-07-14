@@ -2,6 +2,10 @@ Meteor.publish('Jobs', (jobId) =>
   jobId ? Jobs.find({_id: jobId}) : Jobs.find()
 )
 
+Meteor.publish('JobsNames', () =>
+  Jobs.find({}, {fields: {name:1}})
+)
+
 Meteor.publish('JobsResults', (jobId, limit) =>
 JobsResults.find({jobId:jobId}, {limit: limit, sort: {createdAt:-1}})
 )
