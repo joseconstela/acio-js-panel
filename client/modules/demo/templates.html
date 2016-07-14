@@ -2,37 +2,16 @@
 
   <h2 class="page-header">Demo</h2>
 
-  <p>This page have the acio-js library embedded. Following, its debugging log:</p>
+  <p>This administration panes have acio-js library embedded. This page runs it by using the folowing code.</p>
 
   <script>
-    var worker = new Worker('/lib.js');
-    worker.postMessage('endpoint.{{jobsServerUrl}}');
-    worker.postMessage('start');
-
-    var l = function(t) {
-      if(!document.getElementById('log')) { return; }
-      var entry = document.createElement('li');
-      var container = document.getElementById('log');
-      entry.appendChild(document.createTextNode(t));
-      container.insertBefore(entry, container.firstChild);
-    }
-
-    worker.onmessage = function (e) {
-      l('[WORKER] ' + e.data)
-    };
-    worker.onerror = function (e) {
-      l('[ERROR ] ' + e.data)
-    };
+    aciojs.endpoint("{{jobsServerUrl}}");
+    aciojs.ready();
   </script>
 
-  <style>
-  #log {
-    font-family: 'Lucida Console', Monaco, monospace;
-    list-style: none;
-    padding: 0;
-  }
-  </style>
+  <pre>aciojs.endpoint("{{jobsServerUrl}}");
+aciojs.ready();</pre>
 
-  <ul id="log"></ul>
+  <p>Open your browser's console to see the log</p>
 
 </template>

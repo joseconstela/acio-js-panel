@@ -10,11 +10,25 @@ Meteor.startup(() => {
       password : 'admin'
     })
 
-    var jobId = Jobs.insert({
-      name: "name",
+    Jobs.insert({
+      name: "default_job_001",
       description: "Test created by server/main.js",
       status: "working",
-      code: "function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;};wqResult(getRandomInt(1,100), {reqNewJob:true});",
+      code: "function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;};result(getRandomInt(1,15), {reqNewJob:true});",
+      history: [
+        {
+          status: 'working',
+          at: new Date(),
+          userId: userId
+        }
+      ]
+    })
+
+    var jobId = Jobs.insert({
+      name: "default_job_002",
+      description: "Test created by server/main.js",
+      status: "working",
+      code: "function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;};result(getRandomInt(1,100), {reqNewJob:true});",
       history: [
         {
           status: 'working',
