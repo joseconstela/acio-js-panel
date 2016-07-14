@@ -10,9 +10,10 @@ Meteor.startup(() => {
       password : 'admin'
     })
 
-    var jobId = Jobs.insert({
-      name: "default_job_001",
-      description: "Test created by server/main.js",
+    for(var i = 1;i<2;i++)
+    Jobs.insert({
+      name: "default_job_00"+i+"-TSP",
+      description: "Test created by server/fake.js",
       status: "working",
       code: `
       /*
@@ -185,25 +186,6 @@ function crossover() {
     //oxCrossover(queue[i], queue[i+1]);
   }
 }
-//function oxCrossover(x, y) {
-//  //var px = population[x].roll();
-//  //var py = population[y].roll();
-//  var px = population[x].slice(0);
-//  var py = population[y].slice(0);
-
-//  var rand = randomNumber(points.length-1) + 1;
-//  var pre_x = px.slice(0, rand);
-//  var pre_y = py.slice(0, rand);
-
-//  var tail_x = px.slice(rand, px.length);
-//  var tail_y = py.slice(rand, py.length);
-
-//  px = tail_x.concat(pre_x);
-//  py = tail_y.concat(pre_y);
-
-//  population[x] = pre_y.concat(px.reject(pre_y));
-//  population[y] = pre_x.concat(py.reject(pre_x));
-//}
 function doCrossover(x, y) {
   child1 = getChild('next', x, y);
   child2 = getChild('previous', x, y);
@@ -252,7 +234,6 @@ function preciseMutate(orseq) {
       if(v < bestv) {bestv = v, seq = new_seq; };
     }
   }
-  //alert(bestv);
   return seq;
 }
 function preciseMutate1(orseq) {
@@ -265,7 +246,6 @@ function preciseMutate1(orseq) {
     var v = evaluate(new_seq);
     if(v < bestv) {bestv = v, seq = new_seq; };
   }
-  //alert(bestv);
   return seq;
 }
 function swap_seq(seq, p0, p1, q0, q1) {
@@ -278,8 +258,6 @@ function swap_seq(seq, p0, p1, q0, q1) {
 }
 function doMutate(seq) {
   mutationTimes++;
-  // m and n refers to the actual index in the array
-  // m range from 0 to length-2, n range from 2...length-m
   do {
     m = randomNumber(seq.length - 2);
     n = randomNumber(seq.length);
@@ -332,9 +310,7 @@ function getCurrentBest() {
   }
 }
 function setRoulette() {
-  //calculate all the fitness
   for(var i=0; i<values.length; i++) { fitnessValues[i] = 1.0/values[i]; }
-  //set the roulette
   var sum = 0;
   for(var i=0; i<fitnessValues.length; i++) { sum += fitnessValues[i]; }
   for(var i=0; i<roulette.length; i++) { roulette[i] = fitnessValues[i]/sum; }
@@ -376,7 +352,6 @@ function countDistances() {
 
 initData();
 
-// 500 cities
 points = [{"x":780,"y":560},{"x":631,"y":173},{"x":452,"y":237},{"x":789,"y":506},
 {"x":308,"y":175},{"x":797,"y":157},{"x":524,"y":583},{"x":241,"y":7},{"x":340,"y":105},
 {"x":787,"y":19},{"x":168,"y":342},{"x":685,"y":386},{"x":739,"y":195},{"x":408,"y":550},
@@ -481,13 +456,8 @@ points = [{"x":780,"y":560},{"x":631,"y":173},{"x":452,"y":237},{"x":789,"y":506
 
 GAInitialize();
 
-/* Method 1 */
 setInterval(GANextGeneration, 10);
 
-/* Method 2 */
-// while(true) { GANextGeneration(); }
-
-// Report results every second
 setInterval(function() {
   if (lastReported === bestValue) {
     return true;
@@ -495,7 +465,7 @@ setInterval(function() {
   lastReported = bestValue;
 
   result( ~~(bestValue), {reqNewJob:false} );
-}, 2000)`,
+}, 500)`,
       history: [
         {
           status: 'working',
@@ -503,36 +473,6 @@ setInterval(function() {
           userId: userId
         }
       ]
-    })
-
-    JobsResults.insert({
-        "_id" : "5yAmmFKz2y4xBAzMd",
-        "jobId" : jobId,
-        "hashedResult" : "123435673",
-        "data" : {
-            "lol" : true
-        },
-        "createdAt" : new Date()
-    })
-
-    JobsResults.insert({
-        "_id" : "5yAmmFKz2y4xBAzMe",
-        "jobId" : jobId,
-        "hashedResult" : "123435673",
-        "data" : {
-            "lol" : true
-        },
-        "createdAt" : new Date(),
-    })
-
-    JobsResults.insert({
-        "_id" : "5yAmmFKz2y4xBAzMf",
-        "jobId" : jobId,
-        "hashedResult" : "123435675",
-        "data" : {
-            "lol" : false
-        },
-        "createdAt" : new Date()
     })
 
   }
