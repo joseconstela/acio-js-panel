@@ -5,20 +5,21 @@ Template.jobsTableItem.events({
   }
 })
 
+var codeMirrorOpts = {
+  lineNumbers: true,
+  styleActiveLine: true,
+  matchBrackets: true,
+  tabSize: 2,
+  gutters: [80],
+  extraKeys: {"Ctrl-Q": "toggleComment"}
+};
+
 Template.jobsAdd.rendered = function() {
   if ($('textarea').length)
-  var editor = CodeMirror.fromTextArea($('textarea')[0], {
-    lineNumbers: true,
-    styleActiveLine: true,
-    matchBrackets: true
-  });
+  var editor = CodeMirror.fromTextArea($('.codemirror')[0], codeMirrorOpts);
 }
 
 Template.jobsEdit.rendered = function() {
   if ($('textarea').length)
-  var editor = CodeMirror.fromTextArea($('textarea')[0], {
-    lineNumbers: true,
-    styleActiveLine: true,
-    matchBrackets: true
-  });
+  var editor = CodeMirror.fromTextArea($('.codemirror')[0], codeMirrorOpts);
 }
