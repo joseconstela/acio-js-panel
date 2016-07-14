@@ -29,6 +29,18 @@ Router.route('/', function () {
 Router.route('/demo', function () {
   this.render('demo')
 }, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('JobsNames', null)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        jobs: Jobs.find({})
+      }
+    }
+  },
   name: 'demo.index',
   title: 'Demo',
   parent: 'index'

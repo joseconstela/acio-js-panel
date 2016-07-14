@@ -2,16 +2,62 @@
 
   <h2 class="page-header">Demo</h2>
 
-  <p>This administration panes have acio-js library embedded. This page runs it by using the folowing code.</p>
-
   <script>
-    aciojs.endpoint("{{jobsServerUrl}}");
-    aciojs.ready();
+
+  aciojs.debug(function(d) {
+    if (!!d.text) {
+      $('pre').append( '['+d.component+'] ' + d.text + '\n');
+    }
+
+    if(d.component === 'worker') {
+      var p = $('.processor.p-' + d.data.workerId);
+
+      $('.job', p)
+        .html('')
+        .append(
+          $('<a>')
+            .attr('href', '/jobs/' + d.data.jobId + '/results')
+            .text(Jobs.findOne(d.data.jobId).name)
+          );
+
+      $('.last-result', p).text(d.data.result.data);
+
+      var t = $('.total-results', p).text();
+      $('.total-results', p).text((parseInt(t) || 0)+1);
+    }
+  });
+
+  aciojs.load();
+  aciojs.endpoint("{{jobsServerUrl}}");
+  aciojs.ready();
+
   </script>
 
-  <pre>aciojs.endpoint("{{jobsServerUrl}}");
-aciojs.ready();</pre>
+  <h3>System</h3>
 
-  <p>Open your browser's console to see the log</p>
+  <pre></pre>
+
+  <h3>Processors</h3>
+
+  <table class="table table-condensed table-striped table-bordered">
+    <thead>
+      <tr>
+        <th># Processor</th>
+        <th>Job</th>
+        <th>Last result</th>
+        <th>Results submited</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each processors}}
+      <tr class="processor p-{{processor}}">
+        <td class="processor-id">{{processor}}</td>
+        <td class="job"></td>
+        <td class="last-result"></td>
+        <td class="total-results"></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
 </template>
