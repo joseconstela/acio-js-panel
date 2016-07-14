@@ -70,6 +70,18 @@
   var socket = null;
 
   /**
+  * [extend description]
+  * @param  {[type]} m [description]
+  * @param  {[type]} e [description]
+  * @return {[type]}   [description]
+  */
+  function extend(m, e) {
+    var e = e || this;
+    for (var x in m) e[x] = m[x];
+    return e;
+  }
+
+  /**
   * [detectStoreSystem description]
   * @param  {Function} cb [description]
   * @return {[type]}      [description]
@@ -139,7 +151,10 @@
     console.log(wData);
     if(wData.type === 'result') {
       storage('delete', [wData.jobId], function(){})
-      emit('result', wData.result);
+      emit('result', extend(
+        wData.result,
+        {jobId: wData.jobId}
+      ));
     }
   };
 
