@@ -17,7 +17,7 @@ Router.onBeforeAction(function() {
 
 Router.route('/', function () {
   if (Meteor.userId()) {
-    this.render('home')
+    this.redirect('/jobs')
   } else {
     this.layout('siteLayout')
   }
