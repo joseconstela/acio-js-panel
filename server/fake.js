@@ -10,18 +10,29 @@ Meteor.startup(() => {
       password : 'admin'
     })
 
-    for(var i = 1;i<2;i++)
+    for(var i = 1;i<=10;i++)
+    Jobs.insert({
+      name: "default_job_00"+i+"-RANDOM",
+      description: "Test created by server/fake.js",
+      status: "stopped",
+      code: `setInterval(function() {result(1, {reqNewJob:false} );}, 1000)`,
+      history: [
+        {
+          status: 'stopped',
+          at: new Date(),
+          userId: userId
+        }
+      ]
+    })
+
+    for(var i = 1;i<=2;i++)
     Jobs.insert({
       name: "default_job_00"+i+"-TSP",
       description: "Test created by server/fake.js",
       status: "working",
       code: `
-      /*
-* 0.0.1 - 29.06.16
-* Experimental.
-*
-* Original code: https://github.com/parano/GeneticAlgorithm-TSP
-*/
+// 0.0.1 - 29.06.16
+// Original code: https://github.com/parano/GeneticAlgorithm-TSP
 
 Array.prototype.clone = function() { return this.slice(0); }
 Array.prototype.shuffle = function() {
