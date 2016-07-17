@@ -8,27 +8,4 @@ Visit [Acio-js website](https://joseconstela.github.io/acio-js/) for more inform
 
 <hr>
 
-Remember to visit Acio-js repository: [joseconstela/acio-js](https://github.com/joseconstela/acio-js)
-
-<hr>
-
-## Installation
-Install MeteorJS.
-
-For __OSX or Linux__ install the latest official Meteor release from your terminal:
-
-    curl https://install.meteor.com/ | sh
-
-For __Windows__ simply download and run the official Meteor installer:
-
-&nbsp;&nbsp;&nbsp;&nbsp;[https://install.meteor.com/windows](https://install.meteor.com/windows)
-
-If nececsary, specify your environment variables, as they have default values:
-
-    export PORT=3000
-    export MONGO_URL=mongodb://localhost:27017/database
-
-## Usage
-To launch the application, simple execute:
-
-    meteor
+All documentation has moved to the project's main wiki. See [/acio-js/wiki](https://github.com/joseconstela/acio-js/wiki)
