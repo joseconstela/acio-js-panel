@@ -8,4 +8,4 @@ Visit [Acio-js website](https://joseconstela.github.io/acio-js/) for more inform
 
 <hr>
 
-All documentation has moved to the project's main wiki. See [/acio-js/wiki](https://github.com/joseconstela/acio-js/wiki)
+All documentation has moved to the project's main wiki. See [/acio-js/wiki/Management-panel](https://github.com/joseconstela/acio-js/wiki/Management-panel)
