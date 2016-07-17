@@ -17,11 +17,10 @@ Meteor.startup(() => {
         }
       })
 
-      if (status === 'working') {
-        CappedJobs.insert({
-          jobId: jobId
-        })
-      }
+      CappedJobs.insert({
+        jobId: jobId,
+        action: status
+      })
     }
   })
 
