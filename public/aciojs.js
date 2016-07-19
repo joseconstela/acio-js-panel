@@ -264,15 +264,17 @@
 
             if (w !== false) {
 
+              // Reserve worker
+              workersList[w].inUse = true;
+
+              // Update the local job statun in the DB
               storage('update', [{
                 _id: jobs[i]._id,
                 update: {
                   assigned: true
                 }
               }], function(err, result) {
-                console.log('assign');
                 workersList[w].worker.onmessage = workerMessage;
-                workersList[w].inUse = true;
                 workersList[w].worker.postMessage({
                   type: 'job',
                   workerId: w,
