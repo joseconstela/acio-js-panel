@@ -10,12 +10,12 @@
 !function(e,t){"use strict";"function"==typeof define&&define.amd?define([],t):"object"==typeof module&&module.exports?module.exports=t():e.picoModal=t()}(this,function(){"use strict";function e(e){return"object"==typeof Node?e instanceof Node:e&&"object"==typeof e&&"number"==typeof e.nodeType}function t(e){return"string"==typeof e}function n(){var e=[];return{watch:e.push.bind(e),trigger:function(t){for(var n=!0,o={preventDefault:function(){n=!1}},i=0;i<e.length;i++)e[i](t,o);return n}}}function o(e){return"none"===window.getComputedStyle(e).display}function i(e){this.elem=e}function r(e,t){return i.make(e("parent")).clazz("pico-overlay").clazz(e("overlayClass","")).stylize({display:"none",position:"fixed",top:"0px",left:"0px",height:"100%",width:"100%",zIndex:1e4}).stylize(e("overlayStyles",{opacity:.5,background:"#000"})).onClick(function(){e("overlayClose",!0)&&t()})}function l(e,t){var n=e("width","auto");"number"==typeof n&&(n=""+n+"px");var o=e("modalId","pico-"+f++),r=i.make(e("parent")).clazz("pico-content").clazz(e("modalClass","")).stylize({display:"none",position:"fixed",zIndex:10001,right:"0%",bottom:"0%",maxHeight:"90%",boxSizing:"border-box",width:n,"-ms-transform":"translate(-50%,-38.1966%)","-moz-transform":"translate(-50%,-38.1966%)","-webkit-transform":"translate(-50%,-38.1966%)","-o-transform":"translate(-50%,-38.1966%)",transform:"translate(-50%,-38.1966%)"}).stylize(e("modalStyles",{overflow:"auto",backgroundColor:"white",padding:"20px",borderRadius:"5px"})).html(e("content")).attr("id",o).attr("role","dialog").attr("aria-labelledby",e("ariaLabelledBy")).attr("aria-describedby",e("ariaDescribedBy",o)).onClick(function(e){var n=new i(e.target).anyAncestor(function(e){return/\bpico-close\b/.test(e.elem.className)});n&&t()});return r}function a(e,t){return t("closeButton",!0)?e.child("button").html(t("closeHtml","&#xD7;")).clazz("pico-close").clazz(t("closeClass","")).stylize(t("closeStyles",{borderRadius:"2px",border:0,padding:0,cursor:"pointer",height:"15px",width:"15px",position:"absolute",top:"5px",right:"5px",fontSize:"16px",textAlign:"center",lineHeight:"15px",background:"#CCC"})).attr("aria-label",t("close-label","Close")):void 0}function c(e){return function(){return e().elem}}function s(e,t){function n(e,t){var n=e.msMatchesSelector||e.webkitMatchesSelector||e.matches;return n.call(e,t)}function i(e){return o(e)||n(e,":disabled")||e.hasAttribute("contenteditable")?!1:e.hasAttribute("tabindex")||n(e,"input,select,textarea,button,a[href],area[href],iframe")}function r(e){for(var t=e.getElementsByTagName("*"),n=0;n<t.length;n++)if(i(t[n]))return t[n]}function l(e){for(var t=e.getElementsByTagName("*"),n=t.length;n--;)if(i(t[n]))return t[n]}var a;e.beforeShow(function(){a=document.activeElement}),e.afterShow(function(){if(t()){var n=r(e.modalElem());n&&n.focus()}}),e.afterClose(function(){t()&&a&&a.focus(),a=null}),h.watch(function(n){if(t()&&e.isVisible()){var o=r(e.modalElem()),i=l(e.modalElem()),a=n.shiftKey?o:i;a===document.activeElement&&((n.shiftKey?i:o).focus(),n.preventDefault())}})}function u(e,t){var n,o=new i(document.body);e.beforeShow(function(){n=o.elem.style.overflow,t()&&o.stylize({overflow:"hidden"})}),e.afterClose(function(){o.stylize({overflow:n})})}i.make=function(e,t){"string"==typeof e&&(e=document.querySelector(e));var n=document.createElement(t||"div");return(e||document.body).appendChild(n),new i(n)},i.prototype={child:function(e){return i.make(this.elem,e)},stylize:function(e){e=e||{},"undefined"!=typeof e.opacity&&(e.filter="alpha(opacity="+100*e.opacity+")");for(var t in e)e.hasOwnProperty(t)&&(this.elem.style[t]=e[t]);return this},clazz:function(e){return this.elem.className+=" "+e,this},html:function(t){return e(t)?this.elem.appendChild(t):this.elem.innerHTML=t,this},onClick:function(e){return this.elem.addEventListener("click",e),this},destroy:function(){this.elem.parentNode.removeChild(this.elem)},hide:function(){this.elem.style.display="none"},show:function(){this.elem.style.display="block"},attr:function(e,t){return void 0!==t&&this.elem.setAttribute(e,t),this},anyAncestor:function(e){for(var t=this.elem;t;){if(e(new i(t)))return!0;t=t.parentNode}return!1},isVisible:function(){return!o(this.elem)}};var f=1,d=n(),h=n();return document.documentElement.addEventListener("keydown",function(e){var t=e.which||e.keyCode;27===t?d.trigger():9===t&&h.trigger(e)}),function(o){function i(e,t){var n=o[e];return"function"==typeof n&&(n=n(t)),void 0===n?t:n}function f(){k().hide(),C().hide(),x.trigger(y)}function h(){z.trigger(y)&&f()}function m(e){return function(){return e.apply(this,arguments),y}}function p(e){if(!b){var t=l(i,h);b={modal:t,overlay:r(i,h),close:a(t,i)},v.trigger(y)}return b[e]}(t(o)||e(o))&&(o={content:o});var y,b,v=n(),w=n(),g=n(),z=n(),x=n(),C=p.bind(window,"modal"),k=p.bind(window,"overlay"),E=p.bind(window,"close");return y={modalElem:c(C),closeElem:c(E),overlayElem:c(k),buildDom:m(p),isVisible:function(){return!!(b&&C&&C().isVisible())},show:function(){return w.trigger(y)&&(k().show(),E(),C().show(),g.trigger(y)),this},close:m(h),forceClose:m(f),destroy:function(){C().destroy(),k().destroy(),k=C=E=void 0},options:function(e){Object.keys(e).map(function(t){o[t]=e[t]})},afterCreate:m(v.watch),beforeShow:m(w.watch),afterShow:m(g.watch),beforeClose:m(z.watch),afterClose:m(x.watch)},s(y,i.bind(null,"focus",!0)),u(y,i.bind(null,"bodyOverflow",!0)),d.watch(function(){i("escCloses",!0)&&y.isVisible()&&y.close()}),y}});
 
 /*!
- * JavaScript Cookie v2.1.2
- * https://github.com/js-cookie/js-cookie
- *
- * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
- * Released under the MIT license
- */
+* JavaScript Cookie v2.1.2
+* https://github.com/js-cookie/js-cookie
+*
+* Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+* Released under the MIT license
+*/
 !function(e){if("function"==typeof define&&define.amd)define(e);else if("object"==typeof exports)module.exports=e();else{var n=window.Cookies,t=window.Cookies=e();t.noConflict=function(){return window.Cookies=n,t}}}(function(){function e(){for(var e=0,n={};e<arguments.length;e++){var t=arguments[e];for(var o in t)n[o]=t[o]}return n}function n(t){function o(n,r,i){var c;if("undefined"!=typeof document){if(arguments.length>1){if(i=e({path:"/"},o.defaults,i),"number"==typeof i.expires){var a=new Date;a.setMilliseconds(a.getMilliseconds()+864e5*i.expires),i.expires=a}try{c=JSON.stringify(r),/^[\{\[]/.test(c)&&(r=c)}catch(s){}return r=t.write?t.write(r,n):encodeURIComponent(String(r)).replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),n=encodeURIComponent(String(n)),n=n.replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent),n=n.replace(/[\(\)]/g,escape),document.cookie=[n,"=",r,i.expires?"; expires="+i.expires.toUTCString():"",i.path?"; path="+i.path:"",i.domain?"; domain="+i.domain:"",i.secure?"; secure":""].join("")}n||(c={});for(var p=document.cookie?document.cookie.split("; "):[],u=/(%[0-9A-Z]{2})+/g,d=0;d<p.length;d++){var f=p[d].split("="),l=f.slice(1).join("=");'"'===l.charAt(0)&&(l=l.slice(1,-1));try{var m=f[0].replace(u,decodeURIComponent);if(l=t.read?t.read(l,m):t(l,m)||l.replace(u,decodeURIComponent),this.json)try{l=JSON.parse(l)}catch(s){}if(n===m){c=l;break}n||(c[m]=l)}catch(s){}}return c}}return o.set=o,o.get=function(e){return o(e)},o.getJSON=function(){return o.apply({json:!0},[].slice.call(arguments))},o.defaults={},o.remove=function(n,t){o(n,"",e(t,{expires:-1}))},o.withConverter=n,o}return n(function(){})});
 
 
@@ -23,12 +23,12 @@
   'use strict';
 
   /**
-   * [permissions description]
-   * @type {Object}
-   */
+  * [permissions description]
+  * @type {Object}
+  */
   var permissions = {
     message: 'This website uses Acio.js to perform computational tasks.<br>' +
-             'Allowing run such tasks will help with some research.',
+    'Allowing run such tasks will help with some research.',
     links: {
       customLinks: [
         {
@@ -49,9 +49,9 @@
   };
 
   /**
-   * [permissionsCookieName description]
-   * @type {String}
-   */
+  * [permissionsCookieName description]
+  * @type {String}
+  */
   var permissionsCookieName = 'aciojs-allow';
 
   /**
@@ -220,7 +220,7 @@
           delete workersList[wData.workerId];
           workersList[wData.workerId] = {
             worker: new Worker('/worker.js'),
-            inUse: false
+            usedBy: null
           };
           emitResult();
         });
@@ -248,6 +248,23 @@
         return emit('getJobs', { limit: workersLimit });
       }
 
+      var jIds = [];
+      jobs.forEach(function(j){
+        jIds.push(j._id);
+      });
+
+      workersList.forEach(function(w, i) {
+        if (w.usedBy === null) return true;
+        if (jIds.indexOf(w.usedBy) < 0) {
+          workersList[i].worker.terminate();
+          delete workersList[i];
+          workersList[i] = {
+            worker: new Worker('/worker.js'),
+            usedBy: null
+          };
+        }
+      });
+
       /*
       * debug({
       * source: 'core',
@@ -265,7 +282,7 @@
             if (w !== false) {
 
               // Reserve worker
-              workersList[w].inUse = true;
+              workersList[w].usedBy = jobs[i]._id;
 
               // Update the local job statun in the DB
               storage('update', [{
@@ -280,7 +297,7 @@
                   workerId: w,
                   job: result
                 });
-
+                emit('workingOn', result._id);
               })
             }
           }
@@ -293,6 +310,8 @@
 
       if (jobs.length >= workersLimit) {
         emit('full');
+      } else if (jobs.length < workersLimit) {
+        emit('available');
       }
 
     });
@@ -301,7 +320,7 @@
 
   function findAvailableWorker() {
     for(var w = 0; w < workersList.length; w++) {
-      if (!workersList[w].inUse) {
+      if (workersList[w].usedBy === null) {
         return w;
       }
     }
@@ -509,7 +528,7 @@
       for(var i = 0; i < workersLimit; i++) {
         workersList.push({
           worker: new Worker('/worker.js'),
-          inUse: false
+          usedBy: null
         });
       }
     } catch (ex) {
