@@ -11,3 +11,9 @@ Template.demo.helpers({
     return processors;
   }
 });
+
+Template.demo.events({
+  "click .clear-db": function(event, template){
+     aciojs.deleteDatabase();
+  }
+});

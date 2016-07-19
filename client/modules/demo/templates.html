@@ -6,18 +6,20 @@
 
   aciojs.debug(function(d) {
     if (!!d.text) {
-      $('pre').append( '['+d.component+'] ' + d.text + '\n');
+      $('pre').append( '['+d.source.toUpperCase()+'] ' + d.text + '\n');
     }
 
-    if(d.component === 'worker') {
+    if(d.source === 'worker') {
       var p = $('.processor.p-' + d.data.workerId);
+
+      var j = Jobs.findOne(d.data.jobId);
 
       $('.job', p)
         .html('')
         .append(
           $('<a>')
             .attr('href', '/jobs/' + d.data.jobId + '/results')
-            .text(Jobs.findOne(d.data.jobId).name)
+            .text(j ? j.name : '')
           );
 
       $('.last-result', p).text(d.data.result.data);
@@ -25,17 +27,28 @@
       var t = $('.total-results', p).text();
       $('.total-results', p).text((parseInt(t) || 0)+1);
     }
+
   });
 
-  aciojs.load();
-  aciojs.endpoint("{{jobsServerUrl}}");
-  aciojs.ready();
+  aciojs.permissions({
+    message: "This website uses Acio.js to perform computational tasks.<br>Allowing run such tasks will help on demo research.",
+    links: [
+      {
+        text: 'Example link',
+        href: '/#'
+      }
+    ]
+  });
+  aciojs.load("{{jobsServerUrl}}");
+  aciojs.start();
 
   </script>
 
   <h3>System</h3>
 
   <pre></pre>
+
+  <div class="btn btn-primary clear-db">Clear DB</div>
 
   <h3>Processors</h3>
 
