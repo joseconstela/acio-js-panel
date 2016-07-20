@@ -257,20 +257,26 @@
   */
   function handleJobs() {
 
+    // Get all the jobs from the DB
     storage('get', null, function(error, jobs) {
       if (error) {
         throw 'Error loading jobs from database';
       }
 
+      // Make sure jobs is always an array
       if(!jobs) {
         jobs = [];
       }
 
+      // Create a 1D-array with the ids of all available jobs.
       var jIds = [];
       jobs.forEach(function(j){
         jIds.push(j._id);
       });
 
+      // Loop throgh the Web Workers to findout wich ones of them should stop
+      // working, as it job is no longer available (i.e. when the jobs server
+      // flags a job as removed or stopped)
       workersList.forEach(function(w, i) {
         if (w.usedBy === null) return true;
         if (jIds.indexOf(w.usedBy) < 0) {
@@ -283,26 +289,26 @@
         }
       });
 
+      // There are no jobs in the DB, so ask for more to the jobs server
       if (jobs.length === 0) {
         debug({
           source: 'core',
           text: 'Loading Jobs from server'
         });
+
+        // Ask for as many jobs as CPUs are available.
         return emit('getJobs', { limit: workersLimit });
       }
 
-      /*
-      * debug({
-      * source: 'core',
-      * text: 'Asking for jobs (' + loadMore + ')'
-      * });
-      * emit('getJobs', { limit: loadMore });
-      */
+      // Loop throught each job
       var i = 0;
       function nextJob() {
         if (i<jobs.length) {
 
+          // If the job is not assigned...
           if (!jobs[i].assigned) {
+
+            // Find an available web worker for it
             var w = findAvailableWorker();
 
             if (w !== false) {
@@ -310,30 +316,37 @@
               // Reserve worker
               workersList[w].usedBy = jobs[i]._id;
 
-              // Update the local job statun in the DB
+              // Update the local job status in the DB
               storage('update', [{
                 _id: jobs[i]._id,
                 update: {
                   assigned: true
                 }
               }], function(err, result) {
+
+                // Deploy the job to the Web Worker.
                 workersList[w].worker.onmessage = workerMessage;
                 workersList[w].worker.postMessage({
                   type: 'job',
                   workerId: w,
                   job: result
                 });
+
+                // Tell the jobs server that we'r working on it
                 emit('workingOn', result._id);
+
               })
             }
           }
 
+          // Loop iteration
           ++i;
           nextJob();
         }
       }
       nextJob();
 
+      // After assigning jobs, inform the jobs server it there's room for more.
       if (jobs.length >= workersLimit) {
         emit('full');
       } else if (jobs.length < workersLimit) {
@@ -344,6 +357,10 @@
 
   };
 
+  /**
+   * @summary return the index for the first available Web Worker.
+   * @return {[type]} [description]
+   */
   function findAvailableWorker() {
     for(var w = 0; w < workersList.length; w++) {
       if (workersList[w].usedBy === null) {
@@ -365,18 +382,17 @@
   };
 
   /**
-  * @summary [wqEmit description]
-  * @param  {string} type [description]
-  * @param  {string} data [description]
+  * @summary Sends a message to the jobs server via socketio
+  * @param  {string} type or reason of the message
+  * @param  {string} message to send.
   */
   function emit(type, data) {
     socket.emit(type, data);
   };
 
   /**
-  * [initSocket description]
-  * @param  {Function} cb [description]
-  * @return {[type]}      [description]
+  * @summary Initialize the socket connection and messages handler.
+  * @param  {Function} cb Callback
   */
   function initSocket(cb) {
     socket = io(endpoint);
@@ -408,13 +424,15 @@
   };
 
   /**
-  * @summary [wqStore description]
-  * @param  {string} action [description]
-  * @param  {array} objects [description]
-  * @return {function}        [description]
+  * @summary Deals with storage orders
+  *
+  * @param  {string} action Action to be performed. (save get delete update)
+  * @param  {array} objects Objects to be stored
+  * @param  {Function} cb Callback after all operations have been performed.
   */
   function storage(action, objects, cb) {
 
+    // Performs an 'insert' in indexedDB
     if (action === 'save') {
       var tr = storageConfig.instance.transaction(['jobs'], 'readwrite');
 
@@ -429,7 +447,7 @@
       }
       putNext();
 
-    } else if (action === 'get') {
+    } else if (action === 'get') { // Performs an 'find' in indexedDB
 
       var tr = storageConfig.instance.transaction(['jobs'], 'readonly');
       var ob = tr.objectStore('jobs');
@@ -446,7 +464,7 @@
         cb(null, els.length ? els : null);
       };
 
-    } else if (action === 'delete') {
+    } else if (action === 'delete') { // Performs a 'remove' in indexedDB
 
       var tr = storageConfig.instance.transaction(['jobs'], 'readwrite');
       var ob = tr.objectStore('jobs');
@@ -462,7 +480,7 @@
       }
       deleteNext();
 
-    } else if (action === 'update') {
+    } else if (action === 'update') { // Performs an 'update' in indexedDB
 
       var tr = storageConfig.instance.transaction(['jobs'], 'readwrite');
       var ob = tr.objectStore('jobs');
@@ -489,7 +507,7 @@
   };
 
   /**
-  * [Aciojs description]
+  * @summary Constructor
   */
   function Aciojs () {
     if (!(this instanceof Aciojs)) {
