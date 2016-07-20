@@ -22,7 +22,7 @@
   'use strict';
 
   /**
-  * [permissions description]
+  * @summary Define the permissions popup's content and styles.
   * @type {Object}
   */
   var permissions = {
@@ -48,13 +48,13 @@
   };
 
   /**
-  * [permissionsCookieName description]
+  * @summary Name where the permissions popup's answer is stored.
   * @type {String}
   */
   var permissionsCookieName = 'aciojs-allow';
 
   /**
-  * [workersDeployed description]
+  * @summary Flag the initial deployment of the Web Workers.
   * @type {Boolean}
   */
   var workersDeployed = false;
@@ -70,14 +70,22 @@
   };
 
   /**
-  * [workerList description]
+  * @summary Container for the Web Workers properties and instances.
+  *
+  * {
+  *   worker: {object} instance of Web Worker,
+  *   usedBy: {string} JobId assigned to this Web Worker
+  * }
+  *
   * @type {Array}
   */
   var workersList = [];
 
   /**
-  * [workerLimit description]
-  * @type {[type]}
+  * @summary Maximun number of CPUs allowed to use. Reduced by 1 to prevent
+  * making all processors bussy.
+  *
+  * @type {integer}
   */
   var workersLimit = window.navigator.hardwareConcurrency - 1 || 1;
 
@@ -89,9 +97,7 @@
 
   /**
   * @summary Flag whenever the client's requirements are satified to start
-  * working.
-  *
-  * True if all requirements are satisfied.
+  * working. True if all requirements are satisfied.
   * @type {Boolean}
   */
   var storageReady = false;
@@ -109,16 +115,16 @@
   var socket = null;
 
   /**
-  * [function description]
-  * @return {[type]} [description]
+  * @summary The debug function will be executed on most important tasks during the execution.
+  * @return {function} The function to execute for debugging.
   */
   var debug = function(){console.log(arguments);};
 
   /**
-  * [extend description]
-  * @param  {[type]} m [description]
-  * @param  {[type]} e [description]
-  * @return {[type]}   [description]
+  * @summary Merge objects into one
+  * @param  {object} m Object with "less important" properties
+  * @param  {object} e Object with priority.
+  * @return {object}   Merge of both objects
   */
   function extend(m, e) {
     var e = e || this;
@@ -127,16 +133,19 @@
   }
 
   /**
-  * [initStorageSystem description]
-  * @param  {Function} cb [description]
-  * @return {[type]}      [description]
+  * @summary Initialize the storage system, creates and updates the database if neccesary,
+  * and creates an instance of it.
+  *
+  * @param  {Function} cb Callback
   */
   function initStorageSystem(cb) {
 
+    // indexedDB object must be available.
     if (typeof 'indexedDB' === 'undefined') {
       return cb('No indexedDB available');
     }
 
+    // Definition for the collections.
     var bs = {
       jobs: {
         options: {
@@ -154,12 +163,18 @@
       }
     };
 
+    // Delete database on load.
     indexedDB.deleteDatabase(storageConfig.name);
+
+    // Open the DB connection
     var db = indexedDB.open(storageConfig.name, storageConfig.version);
 
+    // The DB connection triggered an error...
     db.onerror = function(ev) {
       throw "Error opening databse";
     };
+
+    // The DB needs to be created, or updated based on storageConfig.version
     db.onupgradeneeded = function(ev) {
       storageConfig.instance = db.result;
 
@@ -172,11 +187,14 @@
         }
       }
     };
+
+    // The database is blocked (i.e. the app is open somewhere else)
+    // https://developer.mozilla.org/en-US/docs/Web/API/IDBOpenDBRequest/onblocked
     db.onblocked = function() {
-      // the app is open somewhere else
-      // https://developer.mozilla.org/en-US/docs/Web/API/IDBOpenDBRequest/onblocked
       cb('blocked');
     };
+
+    // All went good
     db.onsuccess = function(ev) {
       storageConfig.instance = db.result;
       cb(null, null);
@@ -185,15 +203,19 @@
   };
 
   /**
-  * [workerMessage description]
-  * @param  {[type]} data [description]
-  * @return {[type]}      [description]
+  * @summary Method executed when a Web Worker sends a message to the browser.
+  *
+  * @param  {Object} data The actual message sent by the Web Worker.
   */
   function workerMessage(data) {
+
+    // Messages are sent in a JSON string.
     var wData = JSON.parse(data.data);
 
+    // The intention of the message is to report a result.
     if(wData.type === 'result') {
 
+      // After dealing with the message, emit the result to the jobs server.
       var emitResult = function() {
         emit('result', extend(
           wData.result,
@@ -211,10 +233,12 @@
         });
       }
 
-      // Job is meant to continue its execution?
+      // Job is meant to continue its execution? ...
       if (!wData.result.reqNewJob) {
+        // ... emit the result, and don't do anything else.
         emitResult();
       } else {
+        // ... Remove the job, recreate the Web Worker and emit the result.
         storage('delete', [wData.jobId], function(){
           delete workersList[wData.workerId];
           workersList[wData.workerId] = {
@@ -229,8 +253,7 @@
   };
 
   /**
-  * [handleJobs description]
-  * @return {[type]} [description]
+  * @summary Handles the jobs and assign them to each Web Worker.
   */
   function handleJobs() {
 
