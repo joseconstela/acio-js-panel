@@ -6,8 +6,8 @@ Meteor.startup(() => {
     Meteor.users.remove({})
 
     let userId = Accounts.createUser({
-      email : 'admin@admin.com',
-      password : 'admin'
+      email : 'demo@demo.com',
+      password : 'demo'
     })
 
     for(var i = 1;i<=10;i++)
