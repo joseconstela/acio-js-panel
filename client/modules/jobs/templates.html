@@ -38,14 +38,7 @@
   </tr>
 </template>
 
-<template name="jobsAlertMessage">
-  <div class="alert alert-warning" role="alert">
-    Visit the help section to check how to return jobs results and other available methods. <a href="https://joseconstela.github.io/acio-js/help.html" class="alert-link">Visit the help section</a>
-  </div>
-</template>
-
 <template name="jobsAdd">
-  {{> jobsAlertMessage}}
   <h2 class="page-header">Add a new job</h2>
   {{> quickForm collection="Jobs" id="jobForm" type="insert"}}
 </template>
@@ -60,7 +53,6 @@
       Note that changing jobs code may change and screw its results.
     </div>
   {{else}}
-    {{> jobsAlertMessage}}
     {{> quickForm collection="Jobs" id="jobForm" type="update" doc=job}}
   {{/if}}
 
