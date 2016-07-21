@@ -5,7 +5,8 @@
 var currentJob = {
   _id: '',
   type: '',
-  code: ''
+  code: '',
+  libraries: []
 };
 
 var workerId = null;
@@ -33,10 +34,12 @@ function result(data, opts) {
 
 /**
 * @summary Executes the currentJob's code.
-* Such code must return the results via ```wqEmit('result', getPrimes(15));```
 */
 function execute() {
   try {
+    currentJob.libraries.forEach(function(l) {
+      importScripts(l);
+    })
     var code = decodeURIComponent(escape( currentJob.code ));
     eval(code);
   } catch (ex) {

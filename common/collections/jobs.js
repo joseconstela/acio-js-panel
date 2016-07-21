@@ -61,6 +61,13 @@ Jobs.attachSchema(new SimpleSchema({
       }
     }
   },
+  libraries: {
+    type: [String],
+    optional: true,
+    autoform: {
+      template: 'simpleArray'
+    }
+  },
   code: {
     type: String,
     optional: true,
