@@ -249,6 +249,11 @@
         });
       }
 
+    } else {
+      debug({
+        source: 'worker.js',
+        text: JSON.stringify(wData)
+      });
     }
   };
 
