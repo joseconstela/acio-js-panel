@@ -37,9 +37,11 @@ function result(data, opts) {
 */
 function execute() {
   try {
-    currentJob.libraries.forEach(function(l) {
-      importScripts(l);
-    })
+    if (!!currentJob.libraries) {
+      currentJob.libraries.forEach(function(l) {
+        importScripts(l);
+      })
+    }
     var code = decodeURIComponent(escape( currentJob.code ));
     eval(code);
   } catch (ex) {
