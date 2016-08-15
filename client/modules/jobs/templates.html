@@ -2,7 +2,7 @@
 
   <h2 class="page-header">Jobs</h2>
 
-  <p><a class="btn btn-default" href="{{pathFor 'jobs.add'}}" role="button">Add job</a></p>
+  <p><a class="btn btn-primary" href="{{pathFor 'jobs.add'}}" role="button">Create a new job</a></p>
 
   <table class="table table-condensed table-striped table-bordered">
     <thead>
@@ -22,9 +22,21 @@
 
 </template>
 
+<template name="jobsView">
+
+  <h2 class="page-header">{{job.name}}</h2>
+
+  <h3 class="page-header">Collection</h3>
+
+  <h3 class="page-header">Template</h3>
+
+  <h3 class="page-header">History</h3>
+
+</template>
+
 <template name="jobsTableItem">
   <tr class="{{jobIsRunningCssClass this}}">
-    <th scope="row"><a href="{{pathFor 'jobs.edit'}}">{{name}}</a></th>
+    <th scope="row"><a href="{{pathFor 'jobs.view'}}">{{name}}</a></th>
     <td>{{status}}</td>
     <td>{{createdAt}}</td>
     <td>
@@ -39,43 +51,8 @@
 </template>
 
 <template name="jobsAdd">
-  <h2 class="page-header">Add a new job</h2>
+  <h2 class="page-header">Create a new job</h2>
   {{> quickForm collection="Jobs" id="jobForm" type="insert"}}
-</template>
-
-<template name="jobsEdit">
-  <h2 class="page-header">Update job</h2>
-
-  {{#if equal job.status 'working'}}
-    <div role="alert" class="alert alert-warning">
-      Can not edit working jobs with <strong>working</strong> status.
-      You first need to stop it.
-      Note that changing jobs code may change and screw its results.
-    </div>
-  {{else}}
-    {{> quickForm collection="Jobs" id="jobForm" type="update" doc=job}}
-  {{/if}}
-
-  <label class="control-label">History</label>
-  <table class="table table-condensed table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>At</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each job.history}}
-      <tr>
-        <td>{{status}} {{#if comment}}<br>{{comment}}{{/if}}</td>
-        <td>{{at}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <a href="{{pathFor 'jobs.results.index' data=job}}">See job's results</a>
-
 </template>
 
 <template name="jobsTop5Results">
@@ -91,7 +68,7 @@
     </thead>
     <tbody>
       {{#each results}}
-      {{> jobsResultTableItem}}
+        {{> jobsResultTableItem}}
       {{/each}}
     </tbody>
   </table>

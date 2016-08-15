@@ -65,7 +65,7 @@
   */
   var storageConfig = { // Caching system to use
     name: 'aciojs',     // Name/prefix for the cache (or database name)
-    version: 6,         // Cache structure version
+    version: 7,         // Cache structure version
     instance: null      // Instance for the cache's solution (i.e. IDBDatabase)
   };
 
@@ -267,6 +267,8 @@
       if (error) {
         throw 'Error loading jobs from database';
       }
+
+      console.log(error, jobs)
 
       // Make sure jobs is always an array
       if(!jobs) {

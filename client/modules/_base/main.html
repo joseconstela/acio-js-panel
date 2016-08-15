@@ -44,7 +44,7 @@
 </template>
 
 <template name="navbar">
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
+  <nav class="navbar navbar-default navbar-fixed-top" role="banner">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -57,6 +57,8 @@
       </div>
       {{#if currentUser}}
       <ul class="nav navbar-nav">
+        <li class="{{#if currentRouteIs 'templates'}}active{{/if}}"><a href="{{pathFor 'templates.index'}}">Templates</a></li>
+        <li class="{{#if currentRouteIs 'collections'}}active{{/if}}"><a href="{{pathFor 'collections.index'}}">Collections</a></li>
         <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
         {{#if demoMode}}
           <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>

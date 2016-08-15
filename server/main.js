@@ -2,6 +2,7 @@ Meteor.startup(() => {
 
   Meteor.methods({
     updateJobStatus: (jobId, status) => {
+      
       Jobs.update({
         _id: jobId
       }, {

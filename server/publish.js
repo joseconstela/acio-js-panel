@@ -2,6 +2,14 @@ Meteor.publish('Jobs', (jobId) =>
   jobId ? Jobs.find({_id: jobId}) : Jobs.find()
 )
 
+Meteor.publish('Templates', (templateId) =>
+  templateId ? Templates.find({_id: templateId}) : Templates.find()
+)
+
+Meteor.publish('Collections', (collectionId) =>
+  collectionId ? Collections.find({_id: collectionId}) : Collections.find()
+)
+
 Meteor.publish('JobsNames', () =>
   Jobs.find({}, {fields: {name:1}})
 )

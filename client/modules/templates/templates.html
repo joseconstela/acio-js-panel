@@ -1,0 +1,48 @@
+<template name="templates">
+
+  <h2 class="page-header">Templates</h2>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">New template</div>
+        <div class="panel-body">
+          <p>Create a new template</p>
+          <a class="btn btn-primary" href="{{pathFor 'templates.add'}}" role="button">Add template</a>
+        </div>
+      </div>
+    </div>
+
+    {{#each templates}}
+      {{>templatesTableItem}}
+    {{/each}}
+
+  </div>
+
+</template>
+
+<template name="templatesTableItem">
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">{{name}}</div>
+      <div class="panel-body">
+        <p>{{createdAt}}</p>
+        <a class="btn btn-default" href="{{pathFor 'templates.edit'}}">Edit</a>
+        <a class="btn btn-default remove-item" href="#">Remove</a>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="templatesAdd">
+  <h2 class="page-header">Create new template</h2>
+  {{> quickForm collection="Templates" id="templateForm" type="insert"}}
+</template>
+
+<template name="templatesEdit">
+  <h2 class="page-header">Update template</h2>
+  {{> quickForm collection="Templates" id="templateForm" type="update" doc=template}}
+</template>

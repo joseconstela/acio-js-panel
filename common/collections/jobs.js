@@ -1,24 +1,16 @@
 Jobs = new Mongo.Collection('Jobs')
 
 Jobs.allow({
-  insert: function () { return !!Meteor.user(); },
-  update: function () { return !!Meteor.user(); },
-  remove: function () { return !!Meteor.user(); }
+  insert: () => { return !!Meteor.user() },
+  update: () => { return !!Meteor.user() },
+  remove: () => { return false }
 });
 
 Jobs.attachSchema(new SimpleSchema({
 
   name: {
     type: String,
-    optional: false
-  },
-  description: {
-    type: String,
-    optional: true,
-    autoform: {
-      type: 'textarea',
-      rows: 2
-    }
+    optional: true
   },
   status: {
     type: String,
@@ -46,7 +38,7 @@ Jobs.attachSchema(new SimpleSchema({
   'history.$.status': {
     type: String,
     optional: false,
-    allowedValues: ['created', 'stopped', 'working', 'finished', 'updated']
+    allowedValues: ['created', 'stopped', 'working', 'finished']
   },
   'history.$.at': {
     type: Date,
@@ -61,21 +53,69 @@ Jobs.attachSchema(new SimpleSchema({
       }
     }
   },
-  libraries: {
-    type: [String],
+  env: {
+    label: "Environment variables",
+    type: Array,
     optional: true,
     autoform: {
-      template: 'simpleArray'
+      help: "accesible via process.env.KEY",
+      template: 'keyvalueArray'
     }
   },
-  code: {
+  'env.$': {
+    type: Object,
+    optional: true,
+    autoform: {
+      template: 'keyvalueArray'
+    }
+  },
+  'env.$.key': {
     type: String,
     optional: true,
     autoform: {
-      afFieldInput: {
-        type: "textarea",
-        rows: 10,
-        class: "codemirror"
+      placeholder: 'KEY'
+    }
+  },
+  'env.$.value': {
+    type: String,
+    optional: true,
+    autoform: {
+      placeholder: 'value'
+    }
+  },
+  template: {
+    type: Object,
+    autoform: {
+      blackbox: true
+    }
+  },
+  'template._id': {
+    label: "Name",
+    type: String,
+    optional: false,
+    autoform: {
+      options: () => {
+        return Templates.find().map( (c) => {
+          return {label: c.name, value: c._id}
+        })
+      }
+    }
+  },
+  collection: {
+    type: Object,
+    optional: true,
+    autoform: {
+      blackbox: true
+    }
+  },
+  'collection._id': {
+    label: "Name",
+    type: String,
+    autoform: {
+      options: () => {
+        return Collections.find().map( (c) => {
+          return {label: c.name, value: c._id}
+        })
       }
     }
   },
@@ -102,18 +142,8 @@ Jobs.before.insert( (userId, doc) => {
     }]
   }
 
-}, {fetchPrevious: false})
-
-Jobs.before.update( (userId, doc, fieldNames, modifier, options) => {
-
-  delete modifier['$set'].history
-
-  modifier['$push'] = {}
-
-  modifier['$push'].history = {
-    at: new Date(),
-    status: 'updated',
-    userId: Meteor.userId()
+  if (!doc.name) {
+    doc.name = uuid.new()
   }
 
-})
+}, {fetchPrevious: false})

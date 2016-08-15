@@ -1,6 +1,6 @@
 Meteor.startup(() => {
 
-  if(process.env.NODE_ENV === 'development' || Meteor.settings.public.demoMode) {
+  if(process.env.NODE_ENV !== 'development' || !Meteor.settings.public.demoMode) {
     Jobs.remove({})
     JobsResults.remove({})
     Meteor.users.remove({})

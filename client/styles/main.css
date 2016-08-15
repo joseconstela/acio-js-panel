@@ -82,3 +82,9 @@ body { padding-top: 70px; padding-bottom: 20px; }
   padding: 0 !important;
   position:relative;
 }
+
+label span {
+  font-weight: 200;
+  font-style: italic;
+  color: gray;
+}

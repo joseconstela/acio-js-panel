@@ -1,0 +1,48 @@
+<template name="collections">
+
+  <h2 class="page-header">Collections</h2>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">New collection</div>
+        <div class="panel-body">
+          <p>Create a new collection</p>
+          <a class="btn btn-primary" href="{{pathFor 'collections.add'}}" role="button">Add collection</a>
+        </div>
+      </div>
+    </div>
+
+    {{#each collections}}
+      {{>collectionsTableItem}}
+    {{/each}}
+
+  </div>
+
+</template>
+
+<template name="collectionsTableItem">
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">{{name}}</div>
+      <div class="panel-body">
+        <p>{{createdAt}}</p>
+        <a class="btn btn-default" href="{{pathFor 'collections.edit'}}">Edit</a>
+        <a class="btn btn-default remove-item" href="#">Remove</a>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="collectionsAdd">
+  <h2 class="page-header">Add a new collection</h2>
+  {{> quickForm collection="Collections" id="collectionForm" type="insert"}}
+</template>
+
+<template name="collectionsEdit">
+  <h2 class="page-header">Update collection</h2>
+  {{> quickForm collection="Collections" id="collectionForm" type="update" doc=template}}
+</template>

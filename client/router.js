@@ -42,8 +42,106 @@ Router.route('/demo', function () {
     }
   },
   name: 'demo.index',
-  title: 'Demo',
-  parent: 'index'
+  parent: 'index',
+  title: 'Demo'
+})
+
+Router.route('/templates', function () {
+  this.render('templates')
+}, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('Templates', null)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        templates: Templates.find({}, {sort: {createdAt: -1}})
+      }
+    }
+  },
+  name: 'templates.index',
+  title: 'Templates'
+})
+
+Router.route('/templates/add', function () {
+  this.render('templatesAdd')
+}, {
+  name: 'templates.add',
+  title: 'Add',
+  parent: 'templates.index'
+})
+
+Router.route('/templates/:_id/edit', function () {
+  this.render('templatesEdit')
+}, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('Templates', this.params._id)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        template: Templates.findOne({_id: this.params._id})
+      }
+    }
+  },
+  name: 'templates.edit',
+  title: function() {
+    return (!!this.data() && !!this.data().template) ? this.data().template.name : ''
+  },
+  parent: 'templates.index'
+})
+
+Router.route('/collections', function () {
+  this.render('collections')
+}, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('Collections', null)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        collections: Collections.find({}, {sort: {createdAt: -1}})
+      }
+    }
+  },
+  name: 'collections.index',
+  title: 'Collections'
+})
+
+Router.route('/collections/add', function () {
+  this.render('collectionsAdd')
+}, {
+  name: 'collections.add',
+  title: 'Add',
+  parent: 'collections.index'
+})
+
+Router.route('/collections/:_id/edit', function () {
+  this.render('collectionsEdit')
+}, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('Collections', this.params._id)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        template: Collections.findOne({_id: this.params._id})
+      }
+    }
+  },
+  name: 'collections.edit',
+  title: function() {
+    return (!!this.data() && !!this.data().collection) ? this.data().collection.name : ''
+  },
+  parent: 'collections.index'
 })
 
 Router.route('/jobs', function () {
@@ -69,13 +167,27 @@ Router.route('/jobs', function () {
 Router.route('/jobs/add', function () {
   this.render('jobsAdd')
 }, {
+  subscriptions: function() {
+    return [
+      Meteor.subscribe('Collections', null),
+      Meteor.subscribe('Templates', null)
+    ]
+  },
+  data: function() {
+    if (this.ready) {
+      return {
+        collections: Collections.find(),
+        templates: Templates.find()
+      }
+    }
+  },
   name: 'jobs.add',
   title: 'Add',
   parent: 'jobs.index'
 })
 
-Router.route('/jobs/:_id/edit', function () {
-  this.render('jobsEdit')
+Router.route('/jobs/:_id', function () {
+  this.render('jobsView')
 }, {
   subscriptions: function() {
     return [
@@ -89,7 +201,7 @@ Router.route('/jobs/:_id/edit', function () {
       }
     }
   },
-  name: 'jobs.edit',
+  name: 'jobs.view',
   title: function() {
     return (!!this.data() && !!this.data().job) ? this.data().job.name : ''
   },
@@ -115,7 +227,7 @@ Router.route('/jobs/:_id/results', function () {
   },
   name: 'jobs.results.index',
   title: 'Results',
-  parent: 'jobs.edit'
+  parent: 'jobs.view'
 })
 
 Router.route('/jobs/:_id/results/top', function () {

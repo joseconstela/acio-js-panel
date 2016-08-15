@@ -14,6 +14,8 @@ Template.demo.helpers({
 
 Template.demo.events({
   "click .clear-db": function(event, template){
-     aciojs.deleteDatabase();
+    Cookie.clearAll();
+    aciojs.deleteDatabase();
+    document.location.reload(true);
   }
 });

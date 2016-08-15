@@ -9,6 +9,11 @@ var currentJob = {
   libraries: []
 };
 
+var process = {
+  env: [],
+  argv: []
+};
+
 var workerId = null;
 
 /**
@@ -74,6 +79,21 @@ onmessage = function (ev) {
   workerId = d.workerId;
   if(d.type === 'job') {
     currentJob = d.job;
+
+    if (!!currentJob.env) {
+      // TODO trim and validate
+      currentJob.env.forEach(function(v,k) {
+        process.env[k] = v;
+      });
+    }
+
+    if (!!currentJob.argv) {
+      // TODO trim and validate
+      currentJob.argv.forEach(function(v) {
+        process.argv.push(v);
+      });
+    }
+
     execute();
   }
 };

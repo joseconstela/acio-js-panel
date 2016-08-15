@@ -34,3 +34,4 @@ meteorhacks:aggregate
 random
 practicalmeteor:chai
 dispatch:mocha-phantomjs
+mrt:cookies
