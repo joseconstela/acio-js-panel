@@ -22,7 +22,7 @@ var workerId = null;
 */
 function log(message) {
   var def = { workerId: workerId };
-  postMessage( JSON.stringify ( extend(def, message) ) );
+  postMessage( JSON.stringify ( Object.assign(def, message) ) );
 }
 
 /**
@@ -33,7 +33,7 @@ function result(data, opts) {
   log({
     type: 'result',
     jobId: currentJob._id,
-    result: extend({data:data}, opts)
+    result: Object.assign({data:data}, opts)
   });
 }
 
@@ -56,18 +56,6 @@ function execute() {
       error: ex.message
     });
   }
-}
-
-/**
-* [extend description]
-* @param  {[type]} m [description]
-* @param  {[type]} e [description]
-* @return {[type]}   [description]
-*/
-function extend(m, e) {
-  var e = e || this;
-  for (var x in m) e[x] = m[x];
-  return e;
 }
 
 /**
