@@ -12,6 +12,13 @@ Jobs.attachSchema(new SimpleSchema({
     type: String,
     optional: true
   },
+  description: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'textarea'
+    }
+  },
   status: {
     type: String,
     optional: false,

@@ -88,3 +88,9 @@ label span {
   font-style: italic;
   color: gray;
 }
+
+.panel-body .panel-group:last-child,
+.panel-body table:last-child,
+.panel-body pre:last-child {
+  margin-bottom: 0;
+}

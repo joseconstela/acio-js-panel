@@ -6,6 +6,10 @@ Template.registerHelper('currentRouteIs', (name) => {
   }
 })
 
+Template.registerHelper('length', (arr) => {
+  return arr.length
+})
+
 Template.registerHelper('demoMode', () => {
   return Meteor.settings.public.demoMode
 })

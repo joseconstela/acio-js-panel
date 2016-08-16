@@ -22,18 +22,6 @@
 
 </template>
 
-<template name="jobsView">
-
-  <h2 class="page-header">{{job.name}}</h2>
-
-  <h3 class="page-header">Collection</h3>
-
-  <h3 class="page-header">Template</h3>
-
-  <h3 class="page-header">History</h3>
-
-</template>
-
 <template name="jobsTableItem">
   <tr class="{{jobIsRunningCssClass this}}">
     <th scope="row"><a href="{{pathFor 'jobs.view'}}">{{name}}</a></th>
@@ -58,6 +46,8 @@
 <template name="jobsTop5Results">
   <h2 class="page-header">Top 5 job results</h2>
 
+  {{> jobResultsLinks}}
+
   <table class="table table-condensed table-striped table-bordered">
     <thead>
       <tr>
@@ -79,33 +69,13 @@
 
 <template name="jobResultsLinks">
   <a class="btn btn-primary {{#if currentRouteIs 'job.results.index'}}active{{/if}}" href="{{pathFor 'jobs.results.index' data=job}}">Top 5 job results</a>
-  <a class="btn btn-primary {{#if currentRouteIs 'job.results.top'}}active{{/if}}" href="{{pathFor 'jobs.results.top' data=job}}">All top results</a>
   <a class="btn btn-primary {{#if currentRouteIs 'job.results.all'}}active{{/if}}" href="{{pathFor 'jobs.results.all' data=job}}">All results</a>
-</template>
-
-<template name="jobsAllTopResults">
-  <h2 class="page-header">All top job results</h2>
-
-  <table class="table table-condensed table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Result</th>
-        <th>Result hash</th>
-        <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each results}}
-      {{> jobsResultTableItem}}
-      {{/each}}
-    </tbody>
-  </table>
-
-  {{> jobResultsLinks}}
 </template>
 
 <template name="jobsResultsAll">
   <h2 class="page-header">All results </h2>
+
+  {{> jobResultsLinks}}
 
   <table class="table table-condensed table-striped table-bordered">
     <thead>

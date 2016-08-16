@@ -213,7 +213,7 @@ Router.route('/jobs/:_id/results', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('jobsResultDistinct', this.params._id, 5),
+      Meteor.subscribe('jobsResultDistinct', this.params._id, null),
       Meteor.subscribe('Jobs', this.params._id)
     ]
   },
@@ -228,28 +228,6 @@ Router.route('/jobs/:_id/results', function () {
   name: 'jobs.results.index',
   title: 'Results',
   parent: 'jobs.view'
-})
-
-Router.route('/jobs/:_id/results/top', function () {
-  this.render('jobsAllTopResults')
-}, {
-  subscriptions: function() {
-    return [
-      Meteor.subscribe('jobsResultDistinct', this.params._id),
-      Meteor.subscribe('Jobs', this.params._id)
-    ]
-  },
-  data: function() {
-    if (this.ready) {
-      return {
-        results: JobsResults.find({}, {sort: {'_r.count':-1}}),
-        job: Jobs.findOne({_id: this.params._id})
-      }
-    }
-  },
-  name: 'jobs.results.top',
-  title: 'All top results',
-  parent: 'jobs.results.index'
 })
 
 Router.route('/jobs/:_id/results/all', function () {

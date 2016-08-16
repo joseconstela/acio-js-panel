@@ -26,11 +26,11 @@
 
   <div class="col-md-4">
     <div class="panel panel-default">
-      <div class="panel-heading">{{name}}</div>
+      <div class="panel-heading"><a href="{{pathFor 'templates.edit'}}">{{name}}</a></div>
       <div class="panel-body">
         <p>{{createdAt}}</p>
         <a class="btn btn-default" href="{{pathFor 'templates.edit'}}">Edit</a>
-        <a class="btn btn-default remove-item" href="#">Remove</a>
+        <a class="btn btn-danger remove-item" href="#">Remove</a>
       </div>
     </div>
   </div>
