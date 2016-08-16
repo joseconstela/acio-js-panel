@@ -42,7 +42,6 @@ Router.route('/demo', function () {
     }
   },
   name: 'demo.index',
-  parent: 'index',
   title: 'Demo'
 })
 
@@ -160,8 +159,7 @@ Router.route('/jobs', function () {
     }
   },
   name: 'jobs.index',
-  title: 'Jobs',
-  parent: 'index'
+  title: 'Jobs'
 })
 
 Router.route('/jobs/add', function () {
