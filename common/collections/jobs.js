@@ -92,6 +92,7 @@ Jobs.attachSchema(new SimpleSchema({
   },
   template: {
     type: Object,
+    optional: true,
     autoform: {
       blackbox: true
     }
