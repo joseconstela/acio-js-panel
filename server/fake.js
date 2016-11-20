@@ -1,11 +1,7 @@
 Meteor.startup(() => {
 
-  console.log(process.env.NODE_ENV !== 'development');
-  console.log(!Meteor.settings.public.demoMode);
-  console.log(Meteor.settings);
-
   if(process.env.NODE_ENV === 'development' || !!Meteor.settings.public.demoMode) {
-    Jobs.remove({})
+    /*Jobs.remove({})
     JobsResults.remove({})
     Meteor.users.remove({})
 
@@ -29,7 +25,7 @@ Meteor.startup(() => {
           userId: userId
         }
       ]
-    })
+    })*/
 
   }
 
