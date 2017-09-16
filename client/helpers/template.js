@@ -22,18 +22,6 @@ Template.registerHelper('absoluteUrl', (subfix) => {
   return Meteor.absoluteUrl() + subfix || ''
 })
 
-Template.registerHelper('debug', (optionalValue) => {
-  console.log("Current Context")
-  console.log("====================")
-  console.log(this)
-
-  if (optionalValue) {
-    console.log("Value")
-    console.log("====================")
-    console.log(optionalValue)
-  }
-})
-
 Template.registerHelper('equal', (terma, termb) => {
   return terma === termb
 })
