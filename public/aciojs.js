@@ -259,8 +259,10 @@
 
   /**
   * @summary Handles the jobs and assign them to each Web Worker.
+  *
+  * @param  {Boolean} askForMore In case there are processors free, ask for more jobs
   */
-  function handleJobs() {
+  function handleJobs(askForMore) {
 
     // Get all the jobs from the DB
     storage('get', null, function(error, jobs) {
@@ -355,7 +357,12 @@
       if (jobs.length >= workersLimit) {
         emit('full');
       } else if (jobs.length < workersLimit) {
-        emit('available');
+        if (askForMore) {
+          return emit('getJobs', { limit: workersLimit - jobs.length });
+        }
+        else {
+          emit('available');
+        }
       }
 
     });
@@ -400,6 +407,12 @@
   * @param  {Function} cb Callback
   */
   function initSocket(cb) {
+
+    debug({
+      source: 'core',
+      text: `Contacting server @ ${endpoint}`
+    });
+
     socket = io(endpoint);
 
     socket.on('error', function(data) {
@@ -414,7 +427,7 @@
       });
 
       storage('delete', [jobId], function() {
-        handleJobs();
+        handleJobs(true);
       });
 
     });
@@ -424,7 +437,6 @@
         source: 'socket',
         text: 'Got ' + jobs.length + ' jobs.'
       });
-      console.log(jobs);
       storage('save', jobs, function(error, result) {
         handleJobs();
       });
@@ -441,9 +453,9 @@
   * @param  {Function} cb Callback after all operations have been performed.
   */
   function storage(action, objects, cb) {
-
     // Performs an 'insert' in indexedDB
     if (action === 'save') {
+
       var tr = storageConfig.instance.transaction(['jobs'], 'readwrite');
 
       var i = 0;
@@ -456,6 +468,7 @@
         }
       }
       putNext();
+
 
     } else if (action === 'get') { // Performs an 'find' in indexedDB
 
