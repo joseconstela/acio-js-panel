@@ -21,8 +21,10 @@ var workerId = null;
 * @param {String[]} msg Array containing the messages to be logged
 */
 function log(message) {
-  var def = { workerId: workerId };
-  postMessage( JSON.stringify ( Object.assign(def, message) ) );
+  postMessage(JSON.stringify(Object.assign(
+    {workerId:workerId},
+    message
+  )));
 }
 
 /**
@@ -41,6 +43,7 @@ function result(data, opts) {
 * @summary Executes the currentJob's code.
 */
 function execute() {
+  
   try {
     if (!!currentJob.libraries) {
       currentJob.libraries.forEach(function(l) {
