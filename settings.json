@@ -1,6 +1,6 @@
 {
   "public": {
     "demoMode": true,
-    "jobsServerUrl": "http://192.168.1.36:8000"
+    "jobsServerUrl": "http://127.0.0.1:8000"
   }
 }

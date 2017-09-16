@@ -13,6 +13,7 @@
   <script src="/codemirror/javascript.js"></script>
   <script src="/codemirror/jumptoline.js"></script>
   <link rel="stylesheet" href="/codemirror/codemirror.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -37,8 +38,6 @@
         {{> yield}}
       </div>
     </div>
-
-    {{> footer}}
   </div>
 
 </template>
@@ -55,29 +54,36 @@
         </button>
         <a class="navbar-brand" href="{{pathFor 'jobs.index'}}">Acio.js</a>
       </div>
-      {{#if currentUser}}
+      
       <ul class="nav navbar-nav">
-        <li class="{{#if currentRouteIs 'templates'}}active{{/if}}"><a href="{{pathFor 'templates.index'}}">Templates</a></li>
-        <li class="{{#if currentRouteIs 'collections'}}active{{/if}}"><a href="{{pathFor 'collections.index'}}">Collections</a></li>
-        <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
-        {{#if demoMode}}
-          <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
+        {{#if currentUser}}
+          <li class="{{#if currentRouteIs 'templates'}}active{{/if}}"><a href="{{pathFor 'templates.index'}}">Templates</a></li>
+          <li class="{{#if currentRouteIs 'collections'}}active{{/if}}"><a href="{{pathFor 'collections.index'}}">Collections</a></li>
+          <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
+          {{#if demoMode}}
+            <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
+          {{/if}}
+          <li>
+            <a href="https://github.com/joseconstela/acio-js/wiki" target="_blank">Help</a>
+          </li>
+        {{else}}
+          {{#if demoMode}}
+            <li>
+              <a>
+                <button class="btn btn-xs btn-primary membership-demo-login" type="submit">
+                  Demo mode - click here to login
+                </button>
+              </a>
+            </li>
+          {{/if}}
         {{/if}}
-        <li><a href="https://github.com/joseconstela/acio-js/wiki" target="_blank">Help</a></li>
       </ul>
-      {{/if}}
+      
       <ul class="nav navbar-nav navbar-right">
         {{> loginButtons}}
       </ul>
     </div>
   </nav>
-</template>
-
-<template name="footer">
-  <hr>
-  <footer role="contentinfo">
-    <p><a href="https://joseconstela.github.io/acio-js/" target="_blank">acio-js website</a></p>
-  </footer>
 </template>
 
 <template name="appMenu">
