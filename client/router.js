@@ -31,7 +31,7 @@ Router.route('/demo', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('JobsNames', null)
+      Meteor.subscribe('JobsNames', {}, {})
     ]
   },
   data: function() {
@@ -50,8 +50,8 @@ Router.route('/functions', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Functions', null)
-    ]
+      Meteor.subscribe('Functions', {}, {})
+    ];
   },
   data: function() {
     if (this.ready) {
@@ -77,8 +77,10 @@ Router.route('/functions/:_id/edit', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Functions', this.params._id)
-    ]
+      Meteor.subscribe('Functions', {
+        _id: this.params._id
+      }, {})
+    ];
   },
   data: function() {
     if (this.ready) {
@@ -99,7 +101,7 @@ Router.route('/datas', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Datas', null)
+      Meteor.subscribe('Datas', {}, {})
     ]
   },
   data: function() {
@@ -126,8 +128,10 @@ Router.route('/datas/:_id/edit', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Datas', this.params._id)
-    ]
+      Meteor.subscribe('Datas', {
+        _id: this.params._id
+      }, {})
+    ];
   },
   data: function() {
     if (this.ready) {
@@ -148,7 +152,7 @@ Router.route('/jobs', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', null)
+      Meteor.subscribe('Jobs', {}, {})
     ]
   },
   data: function() {
@@ -167,8 +171,8 @@ Router.route('/jobs/add', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Datas', null),
-      Meteor.subscribe('Functions', null)
+      Meteor.subscribe('Datas', {}, {}),
+      Meteor.subscribe('Functions', {}, {})
     ]
   },
   data: function() {
@@ -189,7 +193,9 @@ Router.route('/jobs/:_id', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params._id)
+      Meteor.subscribe('Jobs', {
+        _id: this.params._id
+      }, {})
     ]
   },
   data: function() {
@@ -211,9 +217,13 @@ Router.route('/jobs/:_id/results', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('jobsResultDistinct', this.params._id, null),
-      Meteor.subscribe('Jobs', this.params._id)
-    ]
+      Meteor.subscribe('jobsResultDistinct', {
+        jobId: this.params._id
+      }, {}),
+      Meteor.subscribe('Jobs', {
+        _id: this.params._id
+      })
+    ];
   },
   data: function() {
     if (this.ready) {
@@ -229,13 +239,17 @@ Router.route('/jobs/:_id/results', function () {
 })
 
 Router.route('/jobs/:_id/results/all', function () {
-  this.render('jobsResultsAll')
+  this.render('jobsResultsAll');
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params._id),
-      Meteor.subscribe('JobsResults', this.params._id)
-    ]
+      Meteor.subscribe('Jobs', {
+        _id: this.params._id
+      }, {}),
+      Meteor.subscribe('JobsResults', {
+        jobId: this.params._id
+      }, {sort: {createdAt: -1}})
+    ];
   },
   data: function() {
     if (this.ready) {
@@ -255,8 +269,13 @@ Router.route('/jobs/:jobId/results/:_id', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Jobs', this.params.jobId),
-      Meteor.subscribe('JobsResult', this.params.jobId, this.params._id)
+      Meteor.subscribe('Jobs', {
+        _id: this.params.jobId
+      }),
+      Meteor.subscribe('JobsResultJobsResult', {
+        jobId: this.params.jobId,
+        _id: this.params._id
+      }, {})
     ]
   },
   data: function() {

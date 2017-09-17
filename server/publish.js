@@ -1,35 +1,24 @@
-Meteor.publish('Jobs', (jobId) =>
-  jobId ? Jobs.find({_id: jobId}) : Jobs.find()
-)
+Meteor.publish('Jobs', (query, options) => Jobs.find(query, options));
 
-Meteor.publish('Functions', (functionId) =>
-  functionId ? Functions.find({_id: functionId}) : Functions.find()
-)
+Meteor.publish('Functions', (query, options) => Functions.find(query, options));
 
-Meteor.publish('Datas', (dataId) =>
-  dataId ? Datas.find({_id: dataId}) : Datas.find()
-)
+Meteor.publish('Datas', (query, options) => Datas.find(query, options));
 
-Meteor.publish('JobsNames', () =>
-  Jobs.find({}, {fields: {name:1}})
-)
+Meteor.publish('JobsNames', (query, options) => Jobs.find(query, options));
 
-Meteor.publish('JobsResults', (jobId, limit) =>
-JobsResults.find({jobId:jobId}, {limit: limit, sort: {createdAt:-1}})
-)
+Meteor.publish('JobsResults', (query, options) => JobsResults.find(query, options));
 
-Meteor.publish('JobsResult', (jobId, resultId) =>
-JobsResults.find({jobId:jobId, _id: resultId})
-)
+Meteor.publish('JobsResult', (query, options) => JobsResults.find(query, options));
 
-Meteor.publish('jobsResultDistinct', function(jobId, limit) {
+Meteor.publish('jobsResultDistinct', function(query, options) {
+
+  // TODO validate query.jobId = string
+
+  query.data = {$exists: true}
 
   let aggregation = [
     {
-      $match: {
-        'jobId': jobId,
-        'data': {$exists: true}
-      }
+      $match: query
     },
     {
       $group: {
@@ -39,13 +28,13 @@ Meteor.publish('jobsResultDistinct', function(jobId, limit) {
     }
   ]
 
-  if (!!limit) {
+  if (!!options.limit) {
     aggregation.push({
-      $limit: limit
+      $limit: options.limit
     })
   }
 
-  let results = JobsResults.aggregate(aggregation)
+  const results = JobsResults.aggregate(aggregation);
 
   var r = this;
   _.each(results, function(result) {
