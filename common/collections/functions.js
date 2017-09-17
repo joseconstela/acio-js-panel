@@ -1,12 +1,12 @@
-Templates = new Mongo.Collection('Templates')
+Functions = new Mongo.Collection('Functions')
 
-Templates.allow({
+Functions.allow({
   insert: function () { return !!Meteor.user(); },
   update: function () { return !!Meteor.user(); },
   remove: function () { return !!Meteor.user(); }
 });
 
-Templates.attachSchema(new SimpleSchema({
+Functions.attachSchema(new SimpleSchema({
 
   name: {
     type: String,
@@ -25,6 +25,8 @@ Templates.attachSchema(new SimpleSchema({
   'libraries.$': {
     type: String,
     optional: true,
+    autoform: {
+    }
   },
   code: {
     type: String,

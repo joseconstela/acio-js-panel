@@ -1,8 +1,18 @@
 /* CSS declarations go here */
 /* Move down content because we have a fixed navbar that is 50px tall */
-body { padding-top: 70px; padding-bottom: 20px; }
+body {
+  padding-top: 55px; padding-bottom: 20px;
+  font-family: Lato, Helvetica, Arial, sans-serif;
+}
 
 .jumbotron { margin-top: -20px; }
+
+.navbar-nav > li > a, .navbar-brand {
+  padding-top:8px !important; 
+  padding-bottom:0 !important;
+  height: 34px;
+}
+.navbar {min-height:34px !important;}
 
 .green { color: green; }
 .red   { color: red; }

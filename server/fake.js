@@ -1,6 +1,7 @@
 Meteor.startup(() => {
 
   if (process.env.NODE_ENV === 'development' ||  !!Meteor.settings.public.demoMode) {
+    Templates.remove({})
     Functions.remove({})
     Jobs.remove({})
     Datas.remove({})
@@ -12,8 +13,17 @@ Meteor.startup(() => {
       password: 'demo'
     })
 
-    let tplId = Functions.insert({
-      name: 'My template',
+    let templateId = Templates.insert({
+      name: 'My function',
+      libraries: [
+        'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js'
+      ],
+      code: 'setInterval(function() {result(\'lodash\', {reqNewJob:false} );}, 300)',
+      createdAt: new Date()
+    })
+
+    let functionId = Functions.insert({
+      name: 'My function',
       libraries: [
         'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js'
       ],
@@ -37,7 +47,7 @@ Meteor.startup(() => {
         name: `Job #${i}`,
         description: `Description for #${i}`,
         function: {
-          _id: tplId,
+          _id: functionId,
           name: 'My function',
           libraries: [
             'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js'

@@ -2,8 +2,13 @@
   <title>Acio.js management panel</title>
   <noscript>
     <style>
-    body {font-size: 3em;text-align: center;}
-    body:after {content: "Please enable JavaScript";}
+      body {
+        font-size: 3em;
+        text-align: center;
+      }
+      body:after {
+        content: "Please enable JavaScript";
+      }
     </style>
   </noscript>
   <script src="/aciojs.js"></script>
@@ -12,21 +17,21 @@
   <script src="/codemirror/search.js"></script>
   <script src="/codemirror/javascript.js"></script>
   <script src="/codemirror/jumptoline.js"></script>
+  <script src="/codemirror/fullscreen.js"></script>
   <link rel="stylesheet" href="/codemirror/codemirror.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Lato:400,700" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 </body>
 
 <template name="siteLayout">
-  {{> navbar}}
-  {{> site}}
+  {{> navbar}} {{> site}}
 </template>
 
 <template name="appLayout">
   {{> navbar}}
-
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -39,46 +44,63 @@
       </div>
     </div>
   </div>
+</template>
 
+<template name="socialLayout">
+  {{> navbar}}
+  <div class="container">
+    {{> yield}}
+  </div>
+</template>
+
+<template name="fullWithAppLayout">
+  {{> navbar}}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12" role="main">
+        {{> yield}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="navbar">
   <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
-    <div class="container">
+    <div class="container-fullwidth">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+          aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{pathFor 'jobs.index'}}">Acio.js</a>
+        <a class="navbar-brand" href="{{pathFor 'index'}}">Acio.js</a>
       </div>
-      
+
       <ul class="nav navbar-nav">
         {{#if currentUser}}
-          <li class="{{#if currentRouteIs 'functions'}}active{{/if}}"><a href="{{pathFor 'functions.index'}}">Functions</a></li>
-          <li class="{{#if currentRouteIs 'datas'}}active{{/if}}"><a href="{{pathFor 'datas.index'}}">Data</a></li>
-          <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
-          {{#if demoMode}}
-            <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
-          {{/if}}
-          <li>
-            <a href="https://github.com/joseconstela/acio-js/wiki" target="_blank">Help</a>
-          </li>
-        {{else}}
-          {{#if demoMode}}
-            <li>
-              <a>
+        <li class="{{#if currentRouteIs 'templates'}}active{{/if}}"><a href="{{pathFor 'templates.index'}}">Templates</a></li>
+        <li class="{{#if currentRouteIs 'functions'}}active{{/if}}"><a href="{{pathFor 'functions.index'}}">Functions</a></li>
+        <li class="{{#if currentRouteIs 'datas'}}active{{/if}}"><a href="{{pathFor 'datas.index'}}">Data set</a></li>
+        <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
+        {{#if demoMode}}
+        <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>
+        {{/if}}
+        <li>
+          <a href="https://github.com/joseconstela/acio-js/wiki" target="_blank">Help</a>
+        </li>
+        {{else}} {{#if demoMode}}
+        <li>
+          <a>
                 <button class="btn btn-xs btn-primary membership-demo-login" type="submit">
                   Demo mode - click here to login
                 </button>
               </a>
-            </li>
-          {{/if}}
-        {{/if}}
+        </li>
+        {{/if}} {{/if}}
       </ul>
-      
+
       <ul class="nav navbar-nav navbar-right">
         {{> loginButtons}}
       </ul>

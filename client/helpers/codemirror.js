@@ -1,4 +1,5 @@
 codeMirrorOpts = {
+  mode: 'javascript',
   lineNumbers: true,
   styleActiveLine: true,
   matchBrackets: true,

@@ -30,18 +30,6 @@
 
   });
 
-  aciojs.permissions({
-    message: "This website uses Acio.js to perform computational tasks.<br>Allowing run such tasks will help on demo research.",
-    links: [
-      {
-        text: 'Author\'s website',
-        href: 'http://joseconstela.com'
-      }
-    ]
-  });
-  aciojs.load("{{jobsServerUrl}}");
-  aciojs.start();
-
   </script>
 
   <pre></pre>
@@ -61,12 +49,12 @@
     </thead>
     <tbody>
       {{#each processors}}
-      <tr class="processor p-{{processor}}">
-        <td class="processor-id">{{processor}}</td>
-        <td class="job"></td>
-        <td class="last-result"></td>
-        <td class="total-results"></td>
-      </tr>
+        <tr class="processor p-{{processor}}">
+          <td class="processor-id">{{processorLabel}}</td>
+          <td class="job"></td>
+          <td class="last-result"></td>
+          <td class="total-results"></td>
+        </tr>
       {{/each}}
     </tbody>
   </table>

@@ -2,6 +2,8 @@ Meteor.publish('Jobs', (query, options) => Jobs.find(query, options));
 
 Meteor.publish('Functions', (query, options) => Functions.find(query, options));
 
+Meteor.publish('Templates', (query, options) => Templates.find(query, options));
+
 Meteor.publish('Datas', (query, options) => Datas.find(query, options));
 
 Meteor.publish('JobsNames', (query, options) => Jobs.find(query, options));

@@ -5,7 +5,8 @@ Template.demo.helpers({
     var processors = [];
     for(var i = 0; i < count; i++) {
       processors.push({
-        processor: i
+        processor: i,
+        processorLabel: i + 1
       });
     }
     return processors;
