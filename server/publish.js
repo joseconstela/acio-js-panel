@@ -2,12 +2,12 @@ Meteor.publish('Jobs', (jobId) =>
   jobId ? Jobs.find({_id: jobId}) : Jobs.find()
 )
 
-Meteor.publish('Templates', (templateId) =>
-  templateId ? Templates.find({_id: templateId}) : Templates.find()
+Meteor.publish('Functions', (functionId) =>
+  functionId ? Functions.find({_id: functionId}) : Functions.find()
 )
 
-Meteor.publish('Collections', (collectionId) =>
-  collectionId ? Collections.find({_id: collectionId}) : Collections.find()
+Meteor.publish('Datas', (dataId) =>
+  dataId ? Datas.find({_id: dataId}) : Datas.find()
 )
 
 Meteor.publish('JobsNames', () =>

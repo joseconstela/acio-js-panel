@@ -16,23 +16,23 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Collection</h3>
+      <h3 class="panel-title">Data</h3>
     </div>
     <div class="panel-body">
-      {{#if job.collection}}
-        {{> jobsViewCollection collection=job.collection}}
+      {{#if job.data}}
+        {{> jobsViewData data=job.data}}
       {{else}}
-        No collection used
+        No data used
       {{/if}}
     </div>
   </div>
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Template</h3>
+      <h3 class="panel-title">Function</h3>
     </div>
     <div class="panel-body">
-      {{> jobsViewTemplate template=job.template}}
+      {{> jobsViewFunction function=job.function}}
     </div>
   </div>
 
@@ -111,35 +111,35 @@
   </table>
 </template>
 
-<template name="jobsViewTemplate">
+<template name="jobsViewFunction">
 
   <table class="table table-bordered">
     <tbody>
       <tr>
-        <th>Original template</th>
-        <td><a href="{{pathFor 'templates.edit' _id=template._id}}">{{template.name}}</a></td>
+        <th>Original function</th>
+        <td><a href="{{pathFor 'functions.edit' _id=function._id}}">{{function.name}}</a></td>
       </tr>
       <tr>
         <th>Created at</th>
-        <td>{{template.createdAt}}</td>
+        <td>{{function.createdAt}}</td>
       </tr>
       <tr>
         <th>Last update</th>
-        <td>{{template.updatedAt}}</td>
+        <td>{{function.updatedAt}}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="panel-group" id="template-code-container" role="tablist" aria-multiselectable="true">
+  <div class="panel-group" id="function-code-container" role="tablist" aria-multiselectable="true">
     <div class="panel panel-warning">
       <div class="panel-heading" role="tab" id="headingOne">
-        <a role="button" data-toggle="collapse" data-parent="#template-code-container" href="#template-code" aria-expanded="false" aria-controls="collapseOne">
+        <a role="button" data-toggle="collapse" data-parent="#function-code-container" href="#function-code" aria-expanded="false" aria-controls="collapseOne">
           View full code
         </a>
       </div>
-      <div id="template-code" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div id="function-code" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
-          <pre>{{jsonPretty template.code}}</pre>
+          <pre>{{jsonPretty function.code}}</pre>
         </div>
       </div>
     </div>
@@ -147,39 +147,39 @@
 
 </template>
 
-<template name="jobsViewCollection">
+<template name="jobsViewData">
 
   <table class="table table-bordered">
     <tbody>
       <tr>
-        <th>Original collection</th>
-        <td><a href="{{pathFor 'collections.edit' _id=collection._id}}">{{collection.name}}</a></td>
+        <th>Original data</th>
+        <td><a href="{{pathFor 'datas.edit' _id=data._id}}">{{data.name}}</a></td>
       </tr>
       <tr>
         <th>Created at</th>
-        <td>{{collection.createdAt}}</td>
+        <td>{{data.createdAt}}</td>
       </tr>
       <tr>
         <th>Last update</th>
-        <td>{{collection.updatedAt}}</td>
+        <td>{{data.updatedAt}}</td>
       </tr>
       <tr>
         <th>Length</th>
-        <td>{{length collection.parameters}}</td>
+        <td>{{length data.parameters}}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="panel-group" id="collection-listing" role="tablist" aria-multiselectable="true">
+  <div class="panel-group" id="data-listing" role="tablist" aria-multiselectable="true">
     <div class="panel panel-warning">
       <div class="panel-heading" role="tab" id="headingOne">
-        <a role="button" data-toggle="collapse" data-parent="#collection-listing" href="#collection-list" aria-expanded="false" aria-controls="collapseOne">
+        <a role="button" data-toggle="collapse" data-parent="#data-listing" href="#data-list" aria-expanded="false" aria-controls="collapseOne">
           View full list of parameters
         </a>
       </div>
-      <div id="collection-list" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div id="data-list" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
-          <pre>{{jsonPretty collection.parameters}}</pre>
+          <pre>{{jsonPretty data.parameters}}</pre>
         </div>
       </div>
     </div>

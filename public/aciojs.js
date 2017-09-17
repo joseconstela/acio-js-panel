@@ -197,7 +197,7 @@
     // All went good
     db.onsuccess = function(ev) {
       storageConfig.instance = db.result;
-      cb(null, null);
+      cb(null, 'indexedDB');
     };
 
   };

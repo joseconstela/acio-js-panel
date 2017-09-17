@@ -57,8 +57,8 @@
       
       <ul class="nav navbar-nav">
         {{#if currentUser}}
-          <li class="{{#if currentRouteIs 'templates'}}active{{/if}}"><a href="{{pathFor 'templates.index'}}">Templates</a></li>
-          <li class="{{#if currentRouteIs 'collections'}}active{{/if}}"><a href="{{pathFor 'collections.index'}}">Collections</a></li>
+          <li class="{{#if currentRouteIs 'functions'}}active{{/if}}"><a href="{{pathFor 'functions.index'}}">Functions</a></li>
+          <li class="{{#if currentRouteIs 'datas'}}active{{/if}}"><a href="{{pathFor 'datas.index'}}">Data</a></li>
           <li class="{{#if currentRouteIs 'jobs'}}active{{/if}}"><a href="{{pathFor 'jobs.index'}}">Jobs</a></li>
           {{#if demoMode}}
             <li class="{{#if currentRouteIs 'demo'}}active{{/if}}"><a href="{{pathFor 'demo.index'}}">Demo</a></li>

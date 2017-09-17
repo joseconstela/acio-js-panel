@@ -90,38 +90,38 @@ Jobs.attachSchema(new SimpleSchema({
       placeholder: 'value'
     }
   },
-  template: {
+  function: {
     type: Object,
     optional: true,
     autoform: {
       blackbox: true
     }
   },
-  'template._id': {
+  'function._id': {
     label: "Name",
     type: String,
     optional: false,
     autoform: {
       options: () => {
-        return Templates.find().map( (c) => {
+        return Functions.find().map( (c) => {
           return {label: c.name, value: c._id}
         })
       }
     }
   },
-  collection: {
+  data: {
     type: Object,
     optional: true,
     autoform: {
       blackbox: true
     }
   },
-  'collection._id': {
+  'data._id': {
     label: "Name",
     type: String,
     autoform: {
       options: () => {
-        return Collections.find().map( (c) => {
+        return Datas.find().map( (c) => {
           return {label: c.name, value: c._id}
         })
       }

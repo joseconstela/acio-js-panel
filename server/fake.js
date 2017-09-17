@@ -1,9 +1,9 @@
 Meteor.startup(() => {
 
   if (process.env.NODE_ENV === 'development' ||  !!Meteor.settings.public.demoMode) {
-    Templates.remove({})
+    Functions.remove({})
     Jobs.remove({})
-    Collections.remove({})
+    Datas.remove({})
     JobsResults.remove({})
     Meteor.users.remove({})
 
@@ -12,7 +12,7 @@ Meteor.startup(() => {
       password: 'demo'
     })
 
-    let tplId = Templates.insert({
+    let tplId = Functions.insert({
       name: 'My template',
       libraries: [
         'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js'
@@ -21,8 +21,8 @@ Meteor.startup(() => {
       createdAt: new Date()
     })
 
-    let collectionId = Collections.insert({
-      name: 'my colelction',
+    let dataId = Datas.insert({
+      name: 'my data',
       parameters: [
         'source1',
         'source2',
@@ -36,17 +36,17 @@ Meteor.startup(() => {
       Jobs.insert({
         name: `Job #${i}`,
         description: `Description for #${i}`,
-        template: {
+        function: {
           _id: tplId,
-          name: 'My template',
+          name: 'My function',
           libraries: [
             'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js'
           ],
           code: 'setInterval(function() {result(\'lodash\', {reqNewJob:false} );}, 300)',
           createdAt: new Date(),
         },
-        collection: {
-          _id: collectionId,
+        data: {
+          _id: dataId,
           name: 'my colelction',
           parameters: [
             'source1',

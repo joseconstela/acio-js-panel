@@ -1,6 +1,6 @@
-<template name="templates">
+<template name="functions">
 
-  <h2 class="page-header">Templates</h2>
+  <h2 class="page-header">Functions</h2>
 
   <div class="row">
 
@@ -9,27 +9,27 @@
         <div class="panel-heading">New template</div>
         <div class="panel-body">
           <p>Create a new template</p>
-          <a class="btn btn-primary" href="{{pathFor 'templates.add'}}" role="button">Add template</a>
+          <a class="btn btn-primary" href="{{pathFor 'functions.add'}}" role="button">Add template</a>
         </div>
       </div>
     </div>
 
-    {{#each templates}}
-      {{>templatesTableItem}}
+    {{#each functions}}
+      {{>functionsTableItem}}
     {{/each}}
 
   </div>
 
 </template>
 
-<template name="templatesTableItem">
+<template name="functionsTableItem">
 
   <div class="col-md-4">
     <div class="panel panel-default">
-      <div class="panel-heading"><a href="{{pathFor 'templates.edit'}}">{{name}}</a></div>
+      <div class="panel-heading"><a href="{{pathFor 'functions.edit'}}">{{name}}</a></div>
       <div class="panel-body">
         <p>{{createdAt}}</p>
-        <a class="btn btn-default" href="{{pathFor 'templates.edit'}}">Edit</a>
+        <a class="btn btn-default" href="{{pathFor 'functions.edit'}}">Edit</a>
         <a class="btn btn-danger remove-item" href="#">Remove</a>
       </div>
     </div>
@@ -37,12 +37,12 @@
 
 </template>
 
-<template name="templatesAdd">
-  <h2 class="page-header">Create new template</h2>
-  {{> quickForm collection="Templates" id="templateForm" type="insert"}}
+<template name="functionsAdd">
+  <h2 class="page-header">Create new function</h2>
+  {{> quickForm collection="Functions" id="templateForm" type="insert"}}
 </template>
 
-<template name="templatesEdit">
-  <h2 class="page-header">Update template</h2>
-  {{> quickForm collection="Templates" id="templateForm" type="update" doc=template}}
+<template name="functionsEdit">
+  <h2 class="page-header">Update function</h2>
+  {{> quickForm collection="Functions" id="templateForm" type="update" doc=function}}
 </template>

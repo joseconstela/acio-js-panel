@@ -5,7 +5,7 @@ Template.jobsTableItem.events({
   }
 })
 
-Template.jobsViewCollection.events({
-  "click .see-entire-collection": (event, template) => {
+Template.jobsViewData.events({
+  "click .see-entire-data": (event, template) => {
   }
 })

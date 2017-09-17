@@ -1,0 +1,48 @@
+<template name="datas">
+
+  <h2 class="page-header">Datas</h2>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">New data</div>
+        <div class="panel-body">
+          <p>Create a new data</p>
+          <a class="btn btn-primary" href="{{pathFor 'datas.add'}}" role="button">Add data</a>
+        </div>
+      </div>
+    </div>
+
+    {{#each datas}}
+      {{>datasTableItem}}
+    {{/each}}
+
+  </div>
+
+</template>
+
+<template name="datasTableItem">
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading"><a href="{{pathFor 'datas.edit'}}">{{name}}</a></div>
+      <div class="panel-body">
+        <p>{{createdAt}}</p>
+        <a class="btn btn-default" href="{{pathFor 'datas.edit'}}">Edit</a>
+        <a class="btn btn-danger remove-item" href="#">Remove</a>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="datasAdd">
+  <h2 class="page-header">Add a new data</h2>
+  {{> quickForm collection="Datas" id="dataForm" type="insert"}}
+</template>
+
+<template name="datasEdit">
+  <h2 class="page-header">Update data</h2>
+  {{> quickForm collection="Datas" id="dataForm" type="update" doc=data}}
+</template>

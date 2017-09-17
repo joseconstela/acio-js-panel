@@ -1,12 +1,12 @@
-Collections = new Mongo.Collection('Collections')
+Datas = new Mongo.Collection('Datas')
 
-Collections.allow({
+Datas.allow({
   insert: function () { return !!Meteor.user(); },
   update: function () { return !!Meteor.user(); },
   remove: function () { return !!Meteor.user(); }
 });
 
-Collections.attachSchema(new SimpleSchema({
+Datas.attachSchema(new SimpleSchema({
 
   name: {
     type: String,

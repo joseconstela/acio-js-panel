@@ -45,102 +45,102 @@ Router.route('/demo', function () {
   title: 'Demo'
 })
 
-Router.route('/templates', function () {
-  this.render('templates')
+Router.route('/functions', function () {
+  this.render('functions')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Templates', null)
+      Meteor.subscribe('Functions', null)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        templates: Templates.find({}, {sort: {createdAt: -1}})
+        functions: Functions.find({}, {sort: {createdAt: -1}})
       }
     }
   },
-  name: 'templates.index',
-  title: 'Templates'
+  name: 'functions.index',
+  title: 'Functions'
 })
 
-Router.route('/templates/add', function () {
-  this.render('templatesAdd')
+Router.route('/functions/add', function () {
+  this.render('functionsAdd')
 }, {
-  name: 'templates.add',
+  name: 'functions.add',
   title: 'Add',
-  parent: 'templates.index'
+  parent: 'functions.index'
 })
 
-Router.route('/templates/:_id/edit', function () {
-  this.render('templatesEdit')
+Router.route('/functions/:_id/edit', function () {
+  this.render('functionsEdit')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Templates', this.params._id)
+      Meteor.subscribe('Functions', this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        template: Templates.findOne({_id: this.params._id})
+        function: Functions.findOne({_id: this.params._id})
       }
     }
   },
-  name: 'templates.edit',
+  name: 'functions.edit',
   title: function() {
-    return (!!this.data() && !!this.data().template) ? this.data().template.name : ''
+    return (!!this.data() && !!this.data().function) ? this.data().function.name : ''
   },
-  parent: 'templates.index'
+  parent: 'functions.index'
 })
 
-Router.route('/collections', function () {
-  this.render('collections')
+Router.route('/datas', function () {
+  this.render('datas')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Collections', null)
+      Meteor.subscribe('Datas', null)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        collections: Collections.find({}, {sort: {createdAt: -1}})
+        datas: Datas.find({}, {sort: {createdAt: -1}})
       }
     }
   },
-  name: 'collections.index',
-  title: 'Collections'
+  name: 'datas.index',
+  title: 'Datas'
 })
 
-Router.route('/collections/add', function () {
-  this.render('collectionsAdd')
+Router.route('/datas/add', function () {
+  this.render('datasAdd')
 }, {
-  name: 'collections.add',
+  name: 'datas.add',
   title: 'Add',
-  parent: 'collections.index'
+  parent: 'datas.index'
 })
 
-Router.route('/collections/:_id/edit', function () {
-  this.render('collectionsEdit')
+Router.route('/datas/:_id/edit', function () {
+  this.render('datasEdit')
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Collections', this.params._id)
+      Meteor.subscribe('Datas', this.params._id)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        template: Collections.findOne({_id: this.params._id})
+        data: Datas.findOne({_id: this.params._id})
       }
     }
   },
-  name: 'collections.edit',
+  name: 'datas.edit',
   title: function() {
-    return (!!this.data() && !!this.data().collection) ? this.data().collection.name : ''
+    return (!!this.data() && !!this.data().data) ? this.data().data.name : ''
   },
-  parent: 'collections.index'
+  parent: 'datas.index'
 })
 
 Router.route('/jobs', function () {
@@ -167,15 +167,15 @@ Router.route('/jobs/add', function () {
 }, {
   subscriptions: function() {
     return [
-      Meteor.subscribe('Collections', null),
-      Meteor.subscribe('Templates', null)
+      Meteor.subscribe('Datas', null),
+      Meteor.subscribe('Functions', null)
     ]
   },
   data: function() {
     if (this.ready) {
       return {
-        collections: Collections.find(),
-        templates: Templates.find()
+        datas: Datas.find(),
+        functions: Functions.find()
       }
     }
   },
