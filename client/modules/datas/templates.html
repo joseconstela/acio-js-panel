@@ -1,40 +1,40 @@
 <template name="datas">
-
   <h2 class="page-header">Data sets</h2>
-
   <div class="row">
-
-    <div class="col-md-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">New data set</div>
-        <div class="panel-body">
-          <p>Create a new data set</p>
-          <a class="btn btn-primary" href="{{pathFor 'datas.add'}}" role="button">Add data set</a>
-        </div>
-      </div>
+    <div class="col-md-12">
+      <p>
+        Create a new data set
+        <a class="btn btn-primary" href="{{pathFor 'datas.add'}}" role="button">Add data set</a>
+      </p>
     </div>
-
-    {{#each datas}}
-      {{>datasTableItem}}
-    {{/each}}
-
+    <div class="col-md-12">
+      <table class="table table-condensed table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created at</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each datas}}
+            {{> datasTableItem}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
-
 </template>
 
 <template name="datasTableItem">
-
-  <div class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading"><a href="{{pathFor 'datas.edit'}}">{{name}}</a></div>
-      <div class="panel-body">
-        <p>{{createdAt}}</p>
-        <a class="btn btn-default" href="{{pathFor 'datas.edit'}}">Edit</a>
-        <a class="btn btn-danger remove-item" href="#">Remove</a>
-      </div>
-    </div>
-  </div>
-
+  <tr>
+    <td>{{name}}</td>
+    <td>{{createdAt}}</td>
+    <td>
+      <a class="btn btn-xs btn-default" href="{{pathFor 'datas.edit'}}">Edit</a>
+      <a class="btn btn-xs btn-danger remove-item" href="#">Remove</a>
+    </td>
+  </tr>
 </template>
 
 <template name="datasAdd">
